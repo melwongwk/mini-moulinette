@@ -1,5 +1,5 @@
-#include <stdlib.h>
 #include "ft_stock_str.h"
+#include <stdlib.h>
 
 int	ft_str_length(char *str)
 {
