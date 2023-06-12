@@ -1,0 +1,86 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/ubuntu
+{
+	"name": "Ubuntu",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/base:jammy",
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/pre-commit:2": {}
+	},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "./.devcontainer/setup.sh",
+	// Configure tool-specific properties.
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"[c]": {
+					"editor.defaultFormatter": "keyhr.42-c-format",
+					"editor.tabSize": 4,
+					"editor.insertSpaces": false,
+					"editor.detectIndentation": false
+				},
+				"[shellscript]": {
+					"editor.defaultFormatter": "foxundermoon.shell-format",
+					"files.eol": "\n",
+					"betterAlign.surroundSpace": {
+						"colon": [
+							0,
+							1
+						],
+						"assignment": [
+							-1,
+							-1
+						],
+						"arrow": [
+							1,
+							1
+						],
+						"comment": 2
+					}
+				},
+				"[markdown]": {
+					"editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+					"editor.unicodeHighlight.ambiguousCharacters": false,
+					"editor.unicodeHighlight.invisibleCharacters": false,
+					"diffEditor.ignoreTrimWhitespace": false,
+					"editor.wordWrap": "on",
+					"editor.quickSuggestions": {
+						"comments": "off",
+						"strings": "off",
+						"other": "off"
+					}
+				},
+				"files.associations": {
+					"*.[ch]": "c"
+				},
+				"files.trimTrailingWhitespace": true,
+				"files.insertFinalNewline": true,
+				"codam-norminette-3.command": "norminette",
+				"codam-norminette-3.fileregex": "\\.[ch]$",
+				"codam-norminette-3.ignoreErrors": [
+					"INVALID_HEADER"
+				],
+				"C_Cpp.default.compilerPath": "/usr/bin/cc",
+				"C_Cpp.default.cStandard": "c17",
+				"C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
+				"C_Cpp.default.compilerArgs": [
+					"-Wall",
+					"-Wextra"
+				]
+			},
+			"extensions": [
+				"MariusvanWijk-JoppeKoers.codam-norminette-3",
+				"kube.42header",
+				"keyhr.42-c-format",
+				"foxundermoon.shell-format",
+				"DavidAnson.vscode-markdownlint",
+				"ms-vscode.cpptools-extension-pack"
+			]
+		}
+	}
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}
