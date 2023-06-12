@@ -9,10 +9,9 @@ function handle_sigint {
 }
 
 if [[ "$#" -eq 1 ]]; then
-	cp -R ~/mini-moulinette/mini-moul mini-moul
-  run_norminette
+  cp -R ~/mini-moulinette/mini-moul mini-moul
   trap handle_sigint SIGINT
-	cd mini-moul
+  cd mini-moul
   ./test.sh "$1"
   rm -R ../mini-moul
 else
@@ -21,12 +20,3 @@ else
 fi
 
 exit 1
-
-run_norminette()
-{
-    if command -v norminette &> /dev/null; then
-        norminette
-    else
-        echo "norminette not found, skipping norminette checks"
-    fi
-}
