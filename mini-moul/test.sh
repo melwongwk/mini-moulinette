@@ -55,7 +55,7 @@ main() {
                         result+=", "
                     fi
                     result+="${RED}$assignment_name: EF${DEFAULT}"
-                elif ! run_norminette $PROJECT_DIR/$assignment; then
+                elif ! run_norminette $(normpath $PROJECT_DIR/$assignment); then
                     break_score=1
                     checks=$((checks + 1))
                     printf "${RED}    $test_name failed norminette.${DEFAULT}\n"
@@ -182,6 +182,18 @@ print_footer() {
     printf "${GREY}Test completed. ${PINK}Total elapsed time: ${elapsed_time}s${DEFAULT}.\n"
     printf "${BLUE}Mini moulinette is updated daily. Please remember to git pull today!\n${DEFAULT}"
     space
+}
+
+normpath() {
+    # Remove all /./ sequences.
+    local path=${1//\/.\//\/}
+
+    # Remove dir/.. sequences.
+    while [[ $path =~ ([^/][^/]*/\.\./) ]]; do
+        path=${path/${BASH_REMATCH[0]}/}
+    done
+
+    echo $path
 }
 
 run_norminette() {
