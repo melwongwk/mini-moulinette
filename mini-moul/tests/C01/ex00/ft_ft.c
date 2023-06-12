@@ -1,5 +1,5 @@
-#include "../../../../ex00/ft_ft.c"
 #include "../../../utils/constants.h"
+#include "ft_ft.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>

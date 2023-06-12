@@ -1,9 +1,11 @@
-#include "../../../../ex03/ft_print_numbers.c"
 #include "../../../utils/constants.h"
+#include "ft_print_numbers.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 void	print_success(char *str, int num);
 void	print_error(char *str, int num);
@@ -44,10 +46,12 @@ int	test1(void)
 	expected_output = "0123456789";
 	if (strcmp(buffer, expected_output) != 0)
 	{
-		printf("    " RED "[1] ft_print_numbers() Expected \"%s\",
-				got \"%s\"\n" DEFAULT,
-				expected_output,
-				buffer);
+		printf(
+			"    " RED
+			"[1] ft_print_numbers() "
+			"Expected \"%s\", got \"%s\"\n" DEFAULT,
+			expected_output,
+			buffer);
 		remove("output.txt");
 		return (-1);
 	}

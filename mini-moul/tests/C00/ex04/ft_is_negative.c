@@ -1,9 +1,11 @@
-#include "../../../../ex04/ft_is_negative.c"
 #include "../../../utils/constants.h"
+#include "ft_is_negative.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 typedef struct s_test
 {
@@ -71,11 +73,12 @@ int	run_tests(t_test *tests, int count)
 			error -= 1;
 		}
 		else
-			printf("  " GREEN CHECKMARK GREY " [%d]
-						% s output \"%s\" as expected\n" DEFAULT,
-					i + 1,
-					tests[i].desc,
-					buffer);
+			printf(
+				"  " GREEN CHECKMARK GREY
+				" [%d] %s output \"%s\" as expected\n" DEFAULT,
+				i + 1,
+				tests[i].desc,
+				buffer);
 		// Delete the output file
 		remove("output.txt");
 	}

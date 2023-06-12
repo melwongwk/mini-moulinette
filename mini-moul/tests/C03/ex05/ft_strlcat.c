@@ -62,16 +62,15 @@ int	main(void)
 
 int	run_tests(t_test *tests, int count)
 {
-	int i;
-	int error = 0;
+	int		i;
+	int		error;
+	char	dest[strlen(tests[i].dest) + 1];
 
+	error = 0;
 	for (i = 0; i < count; i++)
 	{
-		char dest[strlen(tests[i].dest) + 1];
 		strcpy(dest, tests[i].dest);
-
 		ft_strlcat(dest, tests[i].src, tests[i].size);
-
 		if (strcmp(dest, tests[i].expected_output) != 0)
 		{
 			printf("    " RED "[%d] %s Expected \"%s\" output \"%s\"\n" DEFAULT,
@@ -91,6 +90,5 @@ int	run_tests(t_test *tests, int count)
 					dest);
 		}
 	}
-
 	return (error);
 }

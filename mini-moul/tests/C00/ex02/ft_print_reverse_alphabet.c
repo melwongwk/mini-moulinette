@@ -1,9 +1,11 @@
-#include "../../../../ex02/ft_print_reverse_alphabet.c"
 #include "../../../utils/constants.h"
+#include "ft_print_reverse_alphabet.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 void	print_success(char *str, int num);
 void	print_error(char *str, int num);
@@ -44,10 +46,12 @@ int	test1(void)
 	expected_output = "zyxwvutsrqponmlkjihgfedcba";
 	if (strcmp(buffer, expected_output) != 0)
 	{
-		printf("    " RED "[1] ft_print_reverse_alphabet() Expected \"%s\",
-				got \"%s\"\n" DEFAULT,
-				expected_output,
-				buffer);
+		printf(
+			"    " RED
+			"[1] ft_print_reverse_alphabet() "
+			"Expected \"%s\", got \"%s\"\n" DEFAULT,
+			expected_output,
+			buffer);
 		remove("output.txt");
 		return (-1);
 	}

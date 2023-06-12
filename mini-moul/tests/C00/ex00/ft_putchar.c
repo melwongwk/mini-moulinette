@@ -1,9 +1,11 @@
-#include "../../../../ex00/ft_putchar.c"
 #include "../../../utils/constants.h"
+#include "ft_putchar.h"
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 typedef struct s_test
 {
@@ -49,8 +51,10 @@ int	run_tests(t_test *tests, int count)
 		memset(buffer, 0, sizeof(buffer));
 		// Redirect the output to a file
 		saved_stdout = dup(STDOUT_FILENO);
-		output_fd = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC,
-				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		output_fd = open(
+			"output.txt",
+			O_WRONLY | O_CREAT | O_TRUNC,
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		dup2(output_fd, STDOUT_FILENO);
 		close(output_fd);
 		// Call the function to be tested
@@ -71,8 +75,8 @@ int	run_tests(t_test *tests, int count)
 			error -= 1;
 		}
 		else
-			printf("  " GREEN CHECKMARK GREY " [%d]
-						% s output \"%s\" as expected\n" DEFAULT,
+			printf("  " GREEN CHECKMARK GREY
+					" [%d] %s output \"%s\" as expected\n" DEFAULT,
 					i + 1,
 					tests[i].desc,
 					buffer);
