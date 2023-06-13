@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "MariusvanWijk-JoppeKoers.codam-norminette-3",
+        "kube.42header",
+        "keyhr.42-c-format",
+        "foxundermoon.shell-format",
+        "DavidAnson.vscode-markdownlint",
+        "ms-vscode.cpptools-extension-pack"
+    ]
+}
