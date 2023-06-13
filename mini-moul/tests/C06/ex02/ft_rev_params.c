@@ -19,7 +19,7 @@ int test1()
 {
   char buf[1024];
   char *program_name = "./program_name"; // Change this to your program name
-  char *copy_program = "cp ../ex02/ft_rev_params.c program_name.c";
+  char *copy_program = "cp ../../../ex02/ft_rev_params.c program_name.c";
   char *compile_command = "cc -Wall -Werror -Wextra program_name.c -o program_name"; // Change this to the compile command for your program
   FILE *fp;
   int result;

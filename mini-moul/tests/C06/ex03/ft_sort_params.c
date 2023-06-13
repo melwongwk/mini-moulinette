@@ -19,7 +19,7 @@ int test1()
 {
   char buf[1024];
   char *program_name = "./program_name"; // Change this to your program name
-  char *copy_program = "cp ../ex03/ft_sort_params.c program_name.c";
+  char *copy_program = "cp ../../../ex03/ft_sort_params.c program_name.c";
   char *compile_command = "cc -Wall -Werror -Wextra program_name.c -o program_name"; // Change this to the compile command for your program
   FILE *fp;
   int result;
@@ -41,7 +41,7 @@ int test1()
   int i = 1;
   while (fgets(buf, sizeof(buf), fp) != NULL)
   {
-    
+
     if (strcmp(buf, args[i]) != 0)
     {
       printf("    " RED "[%d] %s Expected \"%s\", got \"%s\"\n" DEFAULT, i, run_command, modify_string(args[i]), modify_string(buf));
