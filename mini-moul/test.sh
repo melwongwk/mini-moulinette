@@ -66,7 +66,11 @@ main() {
                         result+=", "
                     fi
                     result+="${RED}$assignment_name: NE${DEFAULT}"
-                elif ! cc -Wall -Werror -Wextra -o test1 $(ls $assignment/*.c | head -n 1) $(ls $PROJECT_DIR/$assignment/*.c); then
+                elif ! (
+                    cc -Wall -Werror -Wextra -o test1 $(ls $assignment/*.c | head -n 1) $(ls $PROJECT_DIR/$assignment/*.c) &>test.log ||
+                        cc -Wall -Werror -Wextra -o test1 $(ls $assignment/*.c | head -n 1) &>test.log
+                ); then
+                    cat test.log
                     break_score=1
                     checks=$((checks + 1))
                     printf "${RED}    $test_name cannot compile.${DEFAULT}\n"
@@ -78,6 +82,7 @@ main() {
                     fi
                     result+="${RED}$assignment_name: KO${DEFAULT}"
                 else
+                    cat test.log
                     rm test1
                     checks=$((checks + 1))
                     passed=$((passed + 1))
@@ -88,7 +93,10 @@ main() {
                         for test in $assignment/*.c; do
                             ((index2++))
                             checks=$((checks + 1))
-                            if cc -o ${test%.c} $test $(ls $PROJECT_DIR/$assignment/*.c) 2>/dev/null; then
+                            if (
+                                cc -o ${test%.c} $test $(ls $PROJECT_DIR/$assignment/*.c) 2>/dev/null ||
+                                    cc -o ${test%.c} $test 2>/dev/null
+                            ); then
                                 if ./${test%.c} = 0; then
                                     passed=$((passed + 1))
                                 else
