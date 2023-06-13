@@ -206,7 +206,7 @@ normpath() {
 
 run_norminette() {
     if command -v norminette &>/dev/null; then
-        norminette "$@"
+        norminette -R CheckForbiddenSourceHeader "$@"
         return $?
     else
         echo "norminette not found, skipping norminette checks"
