@@ -1,9 +1,10 @@
+#include "../../../utils/constants.h"
+#include "ft_swap.h"
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
-#include "../../../../ex02/ft_swap.c"
-#include "../../../utils/constants.h"
 
 typedef struct s_test
 {

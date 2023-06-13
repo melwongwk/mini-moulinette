@@ -1,9 +1,11 @@
+#include "../../../utils/constants.h"
+#include "ft_putstr.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
-#include "../../../../ex05/ft_putstr.c"
-#include "../../../utils/constants.h"
+#include <sys/stat.h>
+#include <unistd.h>
 
 typedef struct s_test
 {

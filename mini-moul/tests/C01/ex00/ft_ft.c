@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
-#include "../../../../ex00/ft_ft.c"
 #include "../../../utils/constants.h"
 
 int test1(void);

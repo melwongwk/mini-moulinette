@@ -1,8 +1,8 @@
+#include "../../../utils/constants.h"
+#include "ft_strlen.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../../../../ex06/ft_strlen.c"
-#include "../../../utils/constants.h"
 
 typedef struct s_test
 {

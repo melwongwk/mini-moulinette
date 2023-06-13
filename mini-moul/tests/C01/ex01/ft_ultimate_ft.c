@@ -1,9 +1,10 @@
+#include "../../../utils/constants.h"
+#include "ft_ultimate_ft.h"
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
-#include "../../../../ex01/ft_ultimate_ft.c"
-#include "../../../utils/constants.h"
 
 int test1(void);
 

@@ -1,9 +1,10 @@
+#include "../../../utils/constants.h"
+#include "ft_div_mod.h"
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
-#include "../../../../ex03/ft_div_mod.c"
-#include "../../../utils/constants.h"
 
 int test1(void);
 int test2(void);
