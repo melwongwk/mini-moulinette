@@ -1,63 +1,62 @@
-#include "../../../../ex00/ft_strcpy.c"
-#include "../../../utils/constants.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../../../../ex00/ft_strcpy.c"
+#include "../../../utils/constants.h"
 
-typedef struct s_test
+typedef struct	s_test
 {
 	char	*desc;
 	char	dest[40];
 	char	*src;
 	char	*expected;
-}			t_test;
+}		t_test;
 
-int			run_tests(t_test *tests, int count);
+int	run_tests(t_test *tests, int count);
 
 int	main(void)
 {
-	int	count;
-
 	t_test tests[] = {
-		{.desc = "ft_strcpy(dest[12], \"FGccjqWCcYr\")",
+		{
+			.desc = "ft_strcpy(dest[12], \"FGccjqWCcYr\")",
 			.dest = {0},
 			.src = "FGccjqWCcYr",
-			.expected = "FGccjqWCcYr"},
-		{.desc = "ft_strcpy(dest[40], \"gVepWWXynLOXqCHCscGrowUZSebdZIfy\")",
+			.expected = "FGccjqWCcYr"
+		},
+		{
+			.desc = "ft_strcpy(dest[40], \"gVepWWXynLOXqCHCscGrowUZSebdZIfy\")",
 			.dest = {0},
 			.src = "gVepWWXynLOXqCHCscGrowUZSebdZIfy",
-			.expected = "gVepWWXynLOXqCHCscGrowUZSebdZIfy"},
-		{.desc = "ft_strcpy(dest[4], \"TcXF\")",
+			.expected = "gVepWWXynLOXqCHCscGrowUZSebdZIfy"
+		},
+		{
+			.desc = "ft_strcpy(dest[4], \"TcXF\")",
 			.dest = {0},
 			.src = "TcXF",
-			.expected = "TcXF"}};
-	count = sizeof(tests) / sizeof(tests[0]);
+			.expected = "TcXF"
+		}
+	};
+	int count = sizeof(tests) / sizeof(tests[0]);
+	
 	return (run_tests(tests, count));
 }
 
 int	run_tests(t_test *tests, int count)
 {
-	int		i;
-	int		error;
-	char	*result;
-
-	error = 0;
+	int i;
+	int error = 0;
+	
 	for (i = 0; i < count; i++)
 	{
-		result = ft_strcpy(tests[i].dest, tests[i].src);
+		char *result = ft_strcpy(tests[i].dest, tests[i].src);
+		
 		if (strcmp(result, tests[i].expected) != 0)
 		{
-			printf("    " RED "[%d] %s Expected \"%s\", got \"%s\"\n", i + 1,
-					tests[i].desc, tests[i].expected, result);
+			printf("    " RED "[%d] %s Expected \"%s\", got \"%s\"\n", i + 1, tests[i].desc, tests[i].expected, result);
 			error -= 1;
 		}
 		else
-			printf("  " GREEN CHECKMARK GREY " [%d] %s Expected \"%s\",
-					got \"%s\"\n" DEFAULT,
-					i + 1,
-					tests[i].desc,
-					tests[i].expected,
-					result);
+			printf("  " GREEN CHECKMARK GREY " [%d] %s Expected \"%s\", got \"%s\"\n" DEFAULT, i + 1, tests[i].desc, tests[i].expected, result);
 	}
 	return (error);
 }
