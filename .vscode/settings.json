@@ -1,0 +1,59 @@
+{
+    "[c]": {
+        "editor.defaultFormatter": "keyhr.42-c-format",
+        "editor.tabSize": 4,
+        "editor.insertSpaces": false,
+        "editor.detectIndentation": false
+    },
+    "[shellscript]": {
+        "editor.defaultFormatter": "foxundermoon.shell-format",
+        "files.eol": "\n",
+        "betterAlign.surroundSpace": {
+            "colon": [
+                0,
+                1
+            ],
+            "assignment": [
+                -1,
+                -1
+            ],
+            "arrow": [
+                1,
+                1
+            ],
+            "comment": 2
+        }
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+        "editor.unicodeHighlight.ambiguousCharacters": false,
+        "editor.unicodeHighlight.invisibleCharacters": false,
+        "diffEditor.ignoreTrimWhitespace": false,
+        "editor.wordWrap": "on",
+        "editor.quickSuggestions": {
+            "comments": "off",
+            "strings": "off",
+            "other": "off"
+        }
+    },
+    "files.associations": {
+        "*.[ch]": "c"
+    },
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "codam-norminette-3.command": "norminette",
+    "codam-norminette-3.fileregex": "\\.[ch]$",
+    "codam-norminette-3.ignoreErrors": [
+        "INVALID_HEADER"
+    ],
+    "C_Cpp.default.compilerPath": "/usr/bin/cc",
+    "C_Cpp.default.cStandard": "c17",
+    "C_Cpp.default.intelliSenseMode": "",
+    "C_Cpp.default.compilerArgs": [
+        "-Wall",
+        "-Wextra"
+    ],
+    "C_Cpp.default.macFrameworkPath": [
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"
+    ],
+}
