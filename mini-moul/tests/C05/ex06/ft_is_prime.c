@@ -48,6 +48,11 @@ int main(void)
             .expected = 0,
         },
         {
+            .desc = "Is 2147483647 prime",
+            .n = 2147483647,
+            .expected = 1,
+        },
+        {
             .desc = "Is a negative number prime",
             .n = -5,
             .expected = 0,

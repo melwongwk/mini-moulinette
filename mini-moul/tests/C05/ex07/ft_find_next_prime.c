@@ -38,8 +38,23 @@ int main(void)
             .expected = 11,
         },
         {
+            .desc = "Next prime after 2147483630",
+            .n = 2147483630,
+            .expected = 2147483647,
+        },
+        {
+            .desc = "Next prime after 2147483647",
+            .n = 2147483647,
+            .expected = 2147483647,
+        },
+        {
             .desc = "Next prime after a negative number",
             .n = -5,
+            .expected = 2,
+        },
+        {
+            .desc = "Next prime after a large negative number",
+            .n = -2147483648,
             .expected = 2,
         },
         // Add more test cases here

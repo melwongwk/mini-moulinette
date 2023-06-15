@@ -42,6 +42,21 @@ int main(void)
             .n = -5,
             .expected = 0,
         },
+		{
+			.desc = "Square root of a large non-squared integer",
+			.n = 2147483647,
+			.expected = 0,
+		},
+		{
+			.desc = "Square root of a large squared integer",
+			.n = 2147395600,
+			.expected = 46340,
+		},
+        {
+            .desc = "Square root of a large negative number",
+            .n = -2147483648,
+            .expected = 0,
+        },
         // Add more test cases here
     };
     int count = sizeof(tests) / sizeof(tests[0]);
