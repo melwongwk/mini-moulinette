@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../../../ex04/ft_convert_base.c"
+#include "../../../../ex04/ft_convert_base2.c"
 #include "../../../utils/constants.h"
 
 typedef struct s_test
