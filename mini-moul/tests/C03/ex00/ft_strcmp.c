@@ -122,14 +122,14 @@ int run_tests(t_test *tests, int count)
     {
         int result = ft_strcmp(tests[i].s1, tests[i].s2);
 
-        if (result != tests[i].expected)
+        if ((result < 0 && tests[i].expected >= 0) || (result > 0 && tests[i].expected <= 0) || (result == 0 && tests[i].expected != 0))
         {
-            printf("    " RED "[%d] %s Expected %d, got %d\n", i + 1, tests[i].desc, tests[i].expected, result);
+            printf(RED " [%d] %s: expected %s, got %d\n" DEFAULT, i + 1, tests[i].desc, (tests[i].expected < 0 ? "negative value" : (tests[i].expected > 0 ? "positive value" : "0")), result);
             error -= 1;
         }
         else
         {
-            printf("  " GREEN CHECKMARK GREY " [%d] %s Expected %d, got %d\n" DEFAULT, i + 1, tests[i].desc, tests[i].expected, result);
+            printf("  " GREEN CHECKMARK GREY " [%d] %s: expected %s, got %d\n" DEFAULT, i + 1, tests[i].desc, (tests[i].expected < 0 ? "negative value" : (tests[i].expected > 0 ? "positive value" : "0")), result);
         }
     }
 
