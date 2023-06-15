@@ -67,7 +67,7 @@ main() {
                     fi
                     result+="${RED}$assignment_name: NE${DEFAULT}"
                 elif ! (
-                    cc -Wall -Werror -Wextra -o test1 $(ls $assignment/*.c | head -n 1) $(ls $PROJECT_DIR/$assignment/*.c) &>test.log ||
+                    cc -Wall -Werror -Wextra -o test1 $(ls $assignment/*.c | head -n 1) $PROJECT_DIR/$assignment/*.c &>test.log ||
                         cc -Wall -Werror -Wextra -o test1 $(ls $assignment/*.c | head -n 1) &>test.log
                 ); then
                     cat test.log
@@ -94,7 +94,7 @@ main() {
                             ((index2++))
                             checks=$((checks + 1))
                             if (
-                                cc -o ${test%.c} $test $(ls $PROJECT_DIR/$assignment/*.c) 2>/dev/null ||
+                                cc -o ${test%.c} $test $PROJECT_DIR/$assignment/*.c 2>/dev/null ||
                                     cc -o ${test%.c} $test 2>/dev/null
                             ); then
                                 if ./${test%.c} = 0; then
@@ -206,7 +206,7 @@ normpath() {
 
 run_norminette() {
     if command -v norminette &>/dev/null; then
-        norminette -R CheckForbiddenSourceHeader "$@"
+        norminette -R CheckDefine "$@"
         return $?
     else
         echo "norminette not found, skipping norminette checks"
