@@ -8,29 +8,33 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-int	main(void)
-{
-	return (test1());
-}
-
 int	test1(void)
 {
-	int			saved_stdout;
-	char		buffer[1024];
 	const char	*expected_output = "0123456789";
+	char		*buffer;
+	int			saved_stdout;
+	int			ret;
 
 	saved_stdout = stdout_open();
 	ft_print_numbers();
-	stdout_close(saved_stdout, buffer, sizeof(buffer));
+	buffer = stdout_read();
+	stdout_close(saved_stdout);
+	ret = -1;
 	if (strcmp(buffer, expected_output) != 0)
-	{
 		printf("    " RED "[1] ft_print_numbers() Expected \"%s\", got \"%s\"\n" DEFAULT,
 			expected_output,
 			buffer);
-		return (-1);
-	}
 	else
+	{
 		printf("  " GREEN CHECKMARK GREY " [1] ft_print_numbers() output \"%s\" as expected\n" DEFAULT,
 			buffer);
-	return (0);
+		ret = 0;
+	}
+	free(buffer);
+	return (ret);
+}
+
+int	main(void)
+{
+	return (test1());
 }

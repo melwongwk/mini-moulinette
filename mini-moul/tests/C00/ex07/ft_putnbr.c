@@ -15,22 +15,29 @@ typedef struct s_test
 	char	*expected;
 }	t_test;
 
-int	main(void)
+int	run_test(const t_test test, int index)
 {
-	int				count;
-	const t_test	tests[] = {
-	{.desc = "ft_putnbr(0)", .n = 0, .expected = "0"},
-	{.desc = "ft_putnbr(-2147483648)", .n = -2147483648, .expected = "-2147483648"},
-	{.desc = "ft_putnbr(2147483647)", .n = 2147483647, .expected = "2147483647"},
-	{.desc = "ft_putnbr(42)", .n = 42, .expected = "42"},
-	{.desc = "ft_putnbr(-42)", .n = -42, .expected = "-42"},
-	};
+	char		*buffer;
+	int			saved_stdout;
+	int			ret;
 
-	count = sizeof(tests) / sizeof(tests[0]);
-	return (run_tests(tests, count));
+	saved_stdout = stdout_open();
+	ft_putnbr(test.n);
+	buffer = stdout_read();
+	stdout_close(saved_stdout);
+	ret = -1;
+	if (strcmp(buffer, test.expected) != 0)
+		printf("    " RED "[%d] %s Expected \"%s\", got \"%s\"\n", index, test.desc, test.expected, buffer);
+	else
+	{
+		printf("  " GREEN CHECKMARK GREY " [%d] %s output \"%s\" as expected\n" DEFAULT, index, test.desc, buffer);
+		ret = 0;
+	}
+	free(buffer);
+	return (ret);
 }
 
-int	run_tests(t_test *tests, int count)
+int	run_tests(const t_test *tests, int count)
 {
 	int		i;
 	int		error;
@@ -45,19 +52,17 @@ int	run_tests(t_test *tests, int count)
 	return (error);
 }
 
-int	run_test(t_test test, int index)
+int	main(void)
 {
-	char	buffer[1024];
-	int		saved_stdout;
+	int				count;
+	const t_test	tests[] = {
+	{.desc = "ft_putnbr(0)", .n = 0, .expected = "0"},
+	{.desc = "ft_putnbr(-2147483648)", .n = -2147483648, .expected = "-2147483648"},
+	{.desc = "ft_putnbr(2147483647)", .n = 2147483647, .expected = "2147483647"},
+	{.desc = "ft_putnbr(42)", .n = 42, .expected = "42"},
+	{.desc = "ft_putnbr(-42)", .n = -42, .expected = "-42"},
+	};
 
-	saved_stdout = stdout_open();
-	ft_putnbr(test.n);
-	stdout_close(saved_stdout, buffer, sizeof(buffer));
-	if (strcmp(buffer, test.expected) != 0)
-	{
-		printf("    " RED "[%d] %s Expected \"%s\", got \"%s\"\n", index, test.desc, test.expected, buffer);
-		return (-1);
-	}
-	printf("  " GREEN CHECKMARK GREY " [%d] %s output \"%s\" as expected\n" DEFAULT, index, test.desc, buffer);
-	return (0);
+	count = sizeof(tests) / sizeof(tests[0]);
+	return (run_tests(tests, count));
 }

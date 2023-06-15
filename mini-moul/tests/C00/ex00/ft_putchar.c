@@ -15,21 +15,26 @@ typedef struct s_test
 	char	*expected;
 }			t_test;
 
-int	run_test(t_test test, int index)
+int	run_test(const t_test test, int index)
 {
-	char	buffer[1024];
+	char	*buffer;
 	int		saved_stdout;
+	int		ret;
 
 	saved_stdout = stdout_open();
 	ft_putchar(test.c);
-	stdout_close(saved_stdout, buffer, sizeof(buffer));
+	buffer = stdout_read();
+	stdout_close(saved_stdout);
+	ret = -1;
 	if (strcmp(buffer, test.expected) != 0)
-	{
 		printf("    " RED "[%d] %s Expected \"%s\", got \"%s\"\n", index, test.desc, test.expected, buffer);
-		return (-1);
+	else
+	{
+		printf("  " GREEN CHECKMARK GREY " [%d] %s output \"%s\" as expected\n" DEFAULT, index, test.desc, buffer);
+		ret = 0;
 	}
-	printf("  " GREEN CHECKMARK GREY " [%d] %s output \"%s\" as expected\n" DEFAULT, index, test.desc, buffer);
-	return (0 * index);
+	free(buffer);
+	return (ret);
 }
 
 int	run_tests(const t_test *tests, int count)
