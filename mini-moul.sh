@@ -7,7 +7,7 @@ function handle_sigint {
   rm -R ../mini-moul
   echo ""
   echo "${GREEN}Cleaning process done.${DEFAULT}"
-  exit 1
+  exit 130
 }
 
 function help {

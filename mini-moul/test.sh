@@ -1,22 +1,19 @@
 source config.sh
 
 #utils
-index=0
+ex_ind=0
 index2=0
 assignment_data=NULL
 test_data=NULL
 test_error=NULL
-test_name=NULL
 
 #variables
-checks=0
-passed=0
 marks=0
 questions=0
 dirname_found=0
 break_score=0
 score_false=0
-available_assignments=""
+available_assignments=()
 result=""
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 PROJECT_DIR="$SCRIPT_DIR/.."
@@ -27,7 +24,7 @@ main() {
     start_time=$(date +%s)
     for dir in ./*; do
         dirname="$(basename "$dir")"
-        available_assignments+="$dirname "
+        available_assignments+=($dirname)
 
         if [ -d "$dir" ] && [ "$dirname" == "$1" ]; then
             dirname_found=1
@@ -35,72 +32,77 @@ main() {
             printf "${GREEN} Generating test for ${1}...\n${DEFAULT}"
             space
             dirname_found=1
-            index=0
+            ex_ind=0
             pushd $dir >/dev/null
             for assignment in ./*; do
-                questions=$((questions + 1))
-                score_false=0
+                ((questions++))
                 assignment_name="$(basename "$assignment")"
                 test_name="$(ls $assignment/*.c | head -n 1)"
                 test_name="$(basename "$test_name")"
 
-                if [ ! -d "$PROJECT_DIR/$assignment" ]; then
-                    break_score=1
-                    checks=$((checks + 1))
+                if [ -f $assignment/test.sh ]; then
+                    bash $assignment/test.sh $PROJECT_DIR $assignment
+                    case $? in
+                    0)
+                        update_result "$assignment_name: OK" true
+                        ;;
+                    4)
+                        update_result "$assignment_name: EF"
+                        ;;
+                    8)
+                        update_result "$assignment_name: NE"
+                        ;;
+                    12)
+                        update_result "$assignment_name: CE"
+                        ;;
+                    16)
+                        update_result "$assignment_name: KO"
+                        ;;
+                    *)
+                        printf "${RED}    $test_name exit with unknown code ($?).${DEFAULT}\n"
+                        update_result "$assignment_name: ??"
+                        ;;
+                    esac
+                    space
+                elif [ ! -d "$PROJECT_DIR/$assignment" ]; then
                     printf "${RED}    $test_name is not submitted.${DEFAULT}\n"
                     printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_name/${DEFAULT}$test_name\n"
                     space
 
-                    if [ $index -gt 0 ]; then
-                        result+=", "
-                    fi
-                    result+="${RED}$assignment_name: EF${DEFAULT}"
+                    update_result "$assignment_name: EF"
                 elif ! run_norminette $(normpath $PROJECT_DIR/$assignment); then
-                    break_score=1
-                    checks=$((checks + 1))
                     printf "${RED}    $test_name failed norminette.${DEFAULT}\n"
                     printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_name/${DEFAULT}$test_name\n"
                     space
 
-                    if [ $index -gt 0 ]; then
-                        result+=", "
-                    fi
-                    result+="${RED}$assignment_name: NE${DEFAULT}"
+                    update_result "$assignment_name: NE"
                 elif ! (
                     cc -Wall -Werror -Wextra -o test1 $(ls $assignment/*.c | head -n 1) $PROJECT_DIR/$assignment/*.c &>test.log ||
                         cc -Wall -Werror -Wextra -o test1 $(ls $assignment/*.c | head -n 1) &>test.log
                 ); then
                     cat test.log
-                    break_score=1
-                    checks=$((checks + 1))
                     printf "${RED}    $test_name cannot compile.${DEFAULT}\n"
                     printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_name/${DEFAULT}$test_name\n"
                     space
 
-                    if [ $index -gt 0 ]; then
-                        result+=", "
-                    fi
-                    result+="${RED}$assignment_name: KO${DEFAULT}"
+                    update_result "$assignment_name: KO"
                 else
                     cat test.log
                     rm test1
-                    checks=$((checks + 1))
-                    passed=$((passed + 1))
 
+                    score_false=0
                     if [ -d "$assignment" ]; then
                         index2=0
 
                         for test in $assignment/*.c; do
                             ((index2++))
-                            checks=$((checks + 1))
                             if (
                                 cc -o ${test%.c} $test $PROJECT_DIR/$assignment/*.c 2>/dev/null ||
                                     cc -o ${test%.c} $test 2>/dev/null
                             ); then
                                 if ./${test%.c} = 0; then
-                                    passed=$((passed + 1))
+                                    true
                                 else
-                                    break_score=1
                                     score_false=1
                                 fi
                                 rm ${test%.c}
@@ -114,7 +116,7 @@ main() {
                         printf "${RED}    $assignment_name does not exist.${DEFAULT}\n"
                     fi
                 fi
-                ((index++))
+                ((ex_ind++))
             done
             popd >/dev/null
             break
@@ -124,7 +126,7 @@ main() {
 
     if [ $dirname_found = 0 ]; then
         printf "${RED}Sorry. Tests for $1 isn't available yet. Consider contributing at Github.${DEFAULT}\n"
-        printf "Available assignment tests: ${PURPLE}$available_assignments${DEFAULT}\n"
+        printf "Available assignment tests: ${PURPLE}${available_assignments[*]}${DEFAULT}\n"
         exit 1
     fi
     print_footer
@@ -147,42 +149,47 @@ print_header() {
     space
 }
 
-print_collected_files() {
-    printf "Collected files:\n"
-    ls ../* | grep -v "../41test:*" | grep -v "../41test" | column
-}
-
 space() {
     printf "\n"
 }
 
 print_test_result() {
-    if [ $index -gt 0 ]; then
+    if [ $score_false = 0 ]; then
+        printf "${BG_GREEN}${BLACK}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_name/${DEFAULT}$test_name\n"
+        update_result "$assignment_name: OK" true
+    else
+        printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_name/${DEFAULT}$test_name\n"
+        update_result "$assignment_name: KO"
+    fi
+}
+
+update_result() {
+    if [ $ex_ind -gt 0 ]; then
         result+=", "
     fi
-    if [ $score_false = 0 ]; then
-        result+="${GREEN}$assignment_name: OK${DEFAULT}"
-        printf "${BG_GREEN}${BLACK}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_name/${DEFAULT}$test_name\n"
+    if [ $# -ge 2 ]; then
+        if [ $break_score = 0 ]; then
+            ((marks++))
+        fi
+        result+=${GREEN}
     else
-        result+="${RED}$assignment_name: KO${DEFAULT}"
-        printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_name/${DEFAULT}$test_name\n"
+        break_score=1
+        result+=${RED}
     fi
-    if [ $break_score = 0 ]; then
-        marks=$((marks + 1))
-    fi
+    result+=$1
+    result+=${DEFAULT}
 }
 
 print_footer() {
     printf "${PURPLE}-----------------------------------${DEFAULT}\n"
     space
     PERCENT=$((100 * marks / questions))
-    #printf "Total checks:  ""${GREEN}${passed} passed  ${DEFAULT} ""${checks} total"
     printf "Result:        ${result}\n"
     if [ $PERCENT -ge 50 ]; then
-        printf "Final score:   ""${GREEN}$(echo $PERCENT | bc)/100${DEFAULT}\n"
+        printf "Final score:   ""${GREEN}$(echo $PERCENT)/100${DEFAULT}\n"
         printf "Status:        ""${GREEN}passed${DEFAULT}\n"
     else
-        printf "Final score:   ""${RED}$(echo $PERCENT | bc)/100${DEFAULT}\n"
+        printf "Final score:   ""${RED}$(echo $PERCENT)/100${DEFAULT}\n"
         printf "Status:        ""${RED}FAILED${DEFAULT}\n"
     fi
     end_time=$(date +%s)
@@ -206,7 +213,7 @@ normpath() {
 
 run_norminette() {
     if command -v norminette &>/dev/null; then
-        norminette -R CheckDefine "$@"
+        norminette "$@"
         return $?
     else
         echo "norminette not found, skipping norminette checks"
