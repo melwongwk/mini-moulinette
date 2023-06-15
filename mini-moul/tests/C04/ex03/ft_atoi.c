@@ -142,7 +142,7 @@ int main(void)
             .expected = 123,
         },
         {
-            .desc = "Convert string with invalid signs",
+            .desc = "Convert string with multiple signs",
             .input = "+-123",
             .expected = -123,
         },
@@ -150,6 +150,16 @@ int main(void)
             .desc = "Convert string with out of range chars",
             .input = "1 2 3 4 5 6 7 8 9 0 a b c d e f g h i j k l m n o p q r s t u v w x y z",
             .expected = 1,
+        },
+        {
+            .desc = "Convert string with preceeding spaces",
+            .input = "  123",
+            .expected = 123,
+        },
+        {
+            .desc = "Convert string with whitespaces",
+            .input = "\t\n\v\f\r 123",
+            .expected = 123,
         },
     };
     int count = sizeof(tests) / sizeof(tests[0]);

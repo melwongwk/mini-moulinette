@@ -24,8 +24,8 @@ int main(void)
 	     .src = "",
 	     .expected = ""},
 	    {.desc = "ft_putstr_non_printable(\"\\x01\")",
-	     .src = "\t01",
-	     .expected = "\\0901"},
+	     .src = "\x01",
+	     .expected = "\\01"},
 	    {.desc = "ft_putstr_non_printable(\"\\x1F\")",
 	     .src = "\x1F",
 	     .expected = "\\1f"},
@@ -63,7 +63,11 @@ int main(void)
 		.src = "0123456789ABCDEF",
 		.expected = "0123456789ABCDEF",
 	    },
-	    // Add more test cases here
+	    {
+		.desc = "Print string with char more than \\x7F",
+		.src = "\xFF",
+		.expected = "\\ff",
+	    },
 	};
 	int count = sizeof(tests) / sizeof(tests[0]);
 

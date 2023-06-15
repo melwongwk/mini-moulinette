@@ -186,6 +186,13 @@ int main(void)
             .n = 4,
             .expected = 0,
         },
+        {
+            .desc = "Comparing same string with n is larger than size",
+            .s1 = "Hello",
+            .s2 = "Hello",
+            .n = 64,
+            .expected = 0,
+        },
     };
     int count = sizeof(tests) / sizeof(tests[0]);
 

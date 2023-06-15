@@ -42,10 +42,28 @@ int main(void)
             .expected_output = -169,
         },
         {
-            .desc = "Convert a hexadecimal number with leading whitespace and sign to decimal",
+            .desc = "Convert a hexadecimal number with leading space and sign to decimal",
             .str = "     +---59",
             .base = "0123456789abcdef",
             .expected_output = -89,
+        },
+        {
+            .desc = "Convert a hexadecimal number with leading whitespace and sign to decimal",
+            .str = " \t\v\f\n +---59",
+            .base = "0123456789abcdef",
+            .expected_output = -89,
+        },
+        {
+            .desc = "Convert a hexadecimal number with smallest possible negative value",
+            .str = "-80000000",
+            .base = "0123456789abcdef",
+            .expected_output = -2147483648,
+        },
+        {
+            .desc = "Convert a hexadecimal number with leading whitespace and sign to decimal",
+            .str = "7fffffff",
+            .base = "0123456789abcdef",
+            .expected_output = 2147483647,
         },
         // Add more test cases here
     };
