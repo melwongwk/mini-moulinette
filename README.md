@@ -47,7 +47,7 @@ cd ~
 2. Clone the git there.
 
 ```bash
-git clone https://github.com/khairulhaaziq/mini-moulinette.git
+git clone https://github.com/HanchaiN/mini-moulinette.git
 ```
 
 
@@ -180,6 +180,7 @@ When contributing to mini-moulinette, please be sure to follow our code of condu
 ## Authors
 
 [Khairul Haaziq](https://github.com/khairulhaaziq)
+[Hanchai Nonprasart](https://github.com/HanchaiN)
 
 
 ## Contributors

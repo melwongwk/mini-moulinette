@@ -1,6 +1,6 @@
 {
     "[c]": {
-        "editor.defaultFormatter": "keyhr.42-c-format",
+        "editor.defaultFormatter": null,
         "editor.tabSize": 4,
         "editor.insertSpaces": false,
         "editor.detectIndentation": false
@@ -37,23 +37,15 @@
         }
     },
     "files.associations": {
-        "*.[ch]": "c"
+        "*.c": "c",
+        "*.h": "c",
     },
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
     "codam-norminette-3.command": "norminette",
     "codam-norminette-3.fileregex": "\\.[ch]$",
     "codam-norminette-3.ignoreErrors": [
-        "INVALID_HEADER"
-    ],
-    "C_Cpp.default.compilerPath": "/usr/bin/cc",
-    "C_Cpp.default.cStandard": "c17",
-    "C_Cpp.default.intelliSenseMode": "",
-    "C_Cpp.default.compilerArgs": [
-        "-Wall",
-        "-Wextra"
-    ],
-    "C_Cpp.default.macFrameworkPath": [
-        "/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"
+        "INVALID_HEADER",
+        "LINE_TOO_LONG"
     ],
 }

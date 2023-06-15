@@ -1,0 +1,36 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "cStandard": "c17",
+            "compilerPath": "/usr/bin/cc",
+            "compilerArgs": [
+                "-Wall",
+                "-Wextra"
+            ],
+            "intelliSenseMode": "${default}"
+        },
+        {
+            "name": "Mac",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "macFrameworkPath": [
+                "/Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/System/Library/Frameworks"
+            ],
+            "defines": [],
+            "cStandard": "c17",
+            "compilerPath": "/usr/bin/cc",
+            "compilerArgs": [
+                "-Wall",
+                "-Wextra"
+            ],
+            "intelliSenseMode": "${default}"
+        }
+    ],
+    "version": 4
+}
