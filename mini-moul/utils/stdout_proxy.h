@@ -98,7 +98,7 @@ char	*stdout_exec(char *command)
 
 	fp = popen(command, "r");
 	buffer = freadall(fp);
-	fclose(fp);
+	pclose(fp);
 	return (buffer);
 }
 
