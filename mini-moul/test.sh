@@ -3,9 +3,6 @@ source config.sh
 #utils
 ex_ind=0
 index2=0
-assignment_data=NULL
-test_data=NULL
-test_error=NULL
 
 #variables
 marks=0
@@ -15,9 +12,8 @@ break_score=0
 score_false=0
 available_assignments=()
 result=""
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
-PROJECT_DIR="$SCRIPT_DIR/.."
-dirname_found=0
+readonly SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
+readonly PROJECT_DIR="$SCRIPT_DIR/.."
 
 main() {
     pushd tests >/dev/null
@@ -36,56 +32,57 @@ main() {
             pushd $dir >/dev/null
             for assignment in ./*; do
                 ((questions++))
-                assignment_name="$(basename "$assignment")"
-                test_name="$(ls $assignment/*.c | head -n 1)"
-                test_name="$(basename "$test_name")"
+                assignment_id="$(basename "$assignment")"
+                assignment_name=$(ls $assignment/*.c | head -n 1)
+                assignment_name=$(basename $assignment_name)
+                assignment_name=${assignment_name%.c}
 
                 if [ -f $assignment/test.sh ]; then
                     bash $assignment/test.sh $PROJECT_DIR $assignment
                     case $? in
                     0)
-                        update_result "$assignment_name: OK" true
+                        update_result "OK"
                         ;;
                     4)
-                        update_result "$assignment_name: EF"
+                        update_result "EF"
                         ;;
                     8)
-                        update_result "$assignment_name: NE"
+                        update_result "NE"
                         ;;
                     12)
-                        update_result "$assignment_name: CE"
+                        update_result "CE"
                         ;;
                     16)
-                        update_result "$assignment_name: KO"
+                        update_result "KO"
                         ;;
                     *)
-                        printf "${RED}    $test_name exit with unknown code ($?).${DEFAULT}\n"
-                        update_result "$assignment_name: ??"
+                        printf "${RED}    $assignment_name test exit with unknown code ($?).${DEFAULT}\n"
+                        update_result "??"
                         ;;
                     esac
                     space
                 elif [ ! -d "$PROJECT_DIR/$assignment" ]; then
-                    printf "${RED}    $test_name is not submitted.${DEFAULT}\n"
-                    printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_name/${DEFAULT}$test_name\n"
+                    printf "${RED}    $assignment_name is not submitted.${DEFAULT}\n"
+                    printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
                     space
 
-                    update_result "$assignment_name: EF"
-                elif ! run_norminette $(normpath $PROJECT_DIR/$assignment); then
-                    printf "${RED}    $test_name failed norminette.${DEFAULT}\n"
-                    printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_name/${DEFAULT}$test_name\n"
+                    update_result "EF"
+                elif ! run_norminette $PROJECT_DIR $assignment; then
+                    printf "${RED}    $assignment_name failed norminette.${DEFAULT}\n"
+                    printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
                     space
 
-                    update_result "$assignment_name: NE"
+                    update_result "NE"
                 elif ! (
-                    cc -Wall -Werror -Wextra -o test1 $(ls $assignment/*.c | head -n 1) $PROJECT_DIR/$assignment/*.c &>test.log ||
-                        cc -Wall -Werror -Wextra -o test1 $(ls $assignment/*.c | head -n 1) &>test.log
+                    ccw -o test1 $(ls $assignment/*.c | head -n 1) $PROJECT_DIR/$assignment/*.c &>test.log ||
+                        ccw -o test1 $(ls $assignment/*.c | head -n 1) &>test.log
                 ); then
                     cat test.log
-                    printf "${RED}    $test_name cannot compile.${DEFAULT}\n"
-                    printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_name/${DEFAULT}$test_name\n"
+                    printf "${RED}    $assignment_name cannot compile.${DEFAULT}\n"
+                    printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
                     space
 
-                    update_result "$assignment_name: KO"
+                    update_result "KO"
                 else
                     cat test.log
                     rm test1
@@ -95,25 +92,33 @@ main() {
                         index2=0
 
                         for test in $assignment/*.c; do
+                            test_name="$(basename "$test")"
                             ((index2++))
                             if (
                                 cc -o ${test%.c} $test $PROJECT_DIR/$assignment/*.c 2>/dev/null ||
                                     cc -o ${test%.c} $test 2>/dev/null
                             ); then
                                 if ./${test%.c} = 0; then
-                                    true
+                                    printf "${GREEN}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name/$test_name${DEFAULT}\n"
                                 else
+                                    printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name/$test_name${DEFAULT}\n"
                                     score_false=1
                                 fi
                                 rm ${test%.c}
                             else
-                                printf "    ""${GREY}[$(($index2 + 1))] $test_error ${RED}FAILED${DEFAULT}\n"
+                                printf "    ""${GREY}[$(($index2 + 1))] $test_name ${RED}FAILED${DEFAULT}\n"
                             fi
                         done
-                        print_test_result
+                        if [ $score_false = 0 ]; then
+                            printf "${BG_GREEN}${BLACK}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
+                            update_result "OK"
+                        else
+                            printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
+                            update_result "KO"
+                        fi
                         space
                     else
-                        printf "${RED}    $assignment_name does not exist.${DEFAULT}\n"
+                        printf "${RED}    $assignment_name test does not exist.${DEFAULT}\n"
                     fi
                 fi
                 ((ex_ind++))
@@ -153,21 +158,11 @@ space() {
     printf "\n"
 }
 
-print_test_result() {
-    if [ $score_false = 0 ]; then
-        printf "${BG_GREEN}${BLACK}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_name/${DEFAULT}$test_name\n"
-        update_result "$assignment_name: OK" true
-    else
-        printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_name/${DEFAULT}$test_name\n"
-        update_result "$assignment_name: KO"
-    fi
-}
-
 update_result() {
     if [ $ex_ind -gt 0 ]; then
         result+=", "
     fi
-    if [ $# -ge 2 ]; then
+    if [[ $1 = "OK" ]]; then
         if [ $break_score = 0 ]; then
             ((marks++))
         fi
@@ -176,6 +171,7 @@ update_result() {
         break_score=1
         result+=${RED}
     fi
+    result+="$assignment_id: "
     result+=$1
     result+=${DEFAULT}
 }
@@ -209,16 +205,6 @@ normpath() {
     done
 
     echo $path
-}
-
-run_norminette() {
-    if command -v norminette &>/dev/null; then
-        norminette "$@"
-        return $?
-    else
-        echo "norminette not found, skipping norminette checks"
-    fi
-    return 0
 }
 
 if [ "${1}" = "" ]; then

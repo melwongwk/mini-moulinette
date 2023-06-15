@@ -11,3 +11,20 @@ readonly GREY='\033[38;5;8m'
 readonly BOLD='\033[1m'
 readonly DEFAULT='\033[0m'
 readonly CHECKMARK='\xE2\x9C\x93'
+
+#functions
+run_norminette() {
+    pushd $1 >>/dev/null
+    if command -v norminette &>/dev/null; then
+        norminette ${@:3} $2
+    else
+        echo "norminette not found, skipping norminette checks"
+    fi
+    popd >>/dev/null
+    return $?
+}
+
+ccw() {
+    cc -Wall -Werror -Wextra $@
+    return $?
+}

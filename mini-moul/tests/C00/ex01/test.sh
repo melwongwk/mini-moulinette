@@ -3,8 +3,8 @@ source ~/mini-moulinette/mini-moul/config.sh
 readonly PROJECT_DIR=$1
 readonly assignment=$2
 readonly assignment_id="$(basename "$assignment")"
-readonly assignment_name="ft_putchar"
-readonly files=("$PROJECT_DIR/$assignment/ft_putchar.c")
+readonly assignment_name="ft_print_alphabet"
+readonly files=("$PROJECT_DIR/$assignment/ft_print_alphabet.c")
 
 main() {
     for file in ${files[@]}; do
