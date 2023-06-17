@@ -27,7 +27,7 @@ int	run_test(const t_test test, int index)
 	stdout_close(saved_stdout);
 	ret = -1;
 	if (strcmp(buffer, test.expected) != 0)
-		printf("    " RED "[%d] %s Expected \"%s\", got \"%s\"\n", index, test.desc, test.expected, buffer);
+		printf("    " RED "[%d] %s Expected \"%s\", got \"%s\"\n" DEFAULT, index, test.desc, test.expected, buffer);
 	else
 	{
 		printf("  " GREEN CHECKMARK GREY " [%d] %s output \"%s\" as expected\n" DEFAULT, index, test.desc, buffer);

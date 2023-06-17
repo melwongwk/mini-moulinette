@@ -67,7 +67,7 @@ main() {
                     space
 
                     update_result "EF"
-                elif ! run_norminette $PROJECT_DIR $assignment; then
+                elif ! run_norminette $PROJECT_DIR/$assignment; then
                     printf "${RED}    $assignment_name failed norminette.${DEFAULT}\n"
                     printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
                     space
