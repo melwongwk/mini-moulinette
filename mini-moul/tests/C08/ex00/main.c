@@ -1,4 +1,4 @@
-#include "../../../../ex00/ft.h"
+#include "ft_ft.h"
 
 void	ft_putchar(char c);
 void	ft_swap(int *a, int *b);
