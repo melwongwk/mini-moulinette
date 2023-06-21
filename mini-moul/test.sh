@@ -74,15 +74,17 @@ main() {
 
 						update_result "NE"
 					elif ! (
-						ccw -o test1 $(ls $assignment/*.c | head -n 1) $PROJECT_DIR/$assignment/*.c ||
-							ccw -o test1 $(ls $assignment/*.c | head -n 1)
+						ccw -o test1 $(ls $assignment/*.c | head -n 1) $PROJECT_DIR/$assignment/*.c >>log 2>&1 ||
+							ccw -o test1 $(ls $assignment/*.c | head -n 1) >>log 2>&1
 					); then
+						cat log
 						printf "${RED}    $assignment_name cannot compile.${DEFAULT}\n"
 						printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
 						space
 
 						update_result "KO"
 					else
+						rm log
 						rm test1
 
 						score_false=0

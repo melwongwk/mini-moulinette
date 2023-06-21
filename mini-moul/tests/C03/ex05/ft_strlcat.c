@@ -90,14 +90,18 @@ int run_tests(t_test *tests, int count)
             printf("    " RED "[%d] %s Expected \"%s\" output \"%s\"\n" DEFAULT, i + 1, tests[i].desc, tests[i].expected_output, dest);
             error -= 1;
         }
-		else if (ret != tests[i].expected_return)
+		else
+        {
+            printf("  " GREEN CHECKMARK GREY " [%d] %s Expected \"%s\" output \"%s\"\n" DEFAULT, i + 1, tests[i].desc, tests[i].expected_output, dest);
+        }
+		if (ret != tests[i].expected_return)
 		{
             printf("    " RED "[%d] %s Expected return \"%d\" output \"%d\"\n" DEFAULT, i + 1, tests[i].desc, tests[i].expected_return, ret);
             error -= 1;
 		}
-        else
+		else
         {
-            printf("  " GREEN CHECKMARK GREY " [%d] %s Expected \"%s\" output \"%s\"\n" DEFAULT, i + 1, tests[i].desc, tests[i].expected_output, dest);
+            printf("  " GREEN CHECKMARK GREY " [%d] %s Expected return \"%d\" output \"%d\"\n" DEFAULT, i + 1, tests[i].desc, tests[i].expected_return, ret);
         }
     }
 
