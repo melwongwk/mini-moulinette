@@ -31,6 +31,7 @@ main() {
 			ex_ind=0
 			pushd $dir >/dev/null
 			for assignment in ./*; do
+				assignment_id="$(basename "$assignment")"
 				((questions++))
 				if [ -f $assignment/test.sh ]; then
 					bash $assignment/test.sh $PROJECT_DIR $assignment
@@ -57,7 +58,6 @@ main() {
 					esac
 					space
 				else
-					assignment_id="$(basename "$assignment")"
 					assignment_name=$(ls $assignment/*.c | head -n 1)
 					assignment_name=$(basename $assignment_name)
 					assignment_name=${assignment_name%.c}
