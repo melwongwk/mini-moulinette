@@ -1,62 +1,22 @@
-source ~/mini-moulinette/mini-moul/config.sh
+source ~/.aliases
+readonly MINI_PATH="$(dirname "$(realpath "$(alias mini | sed -E "s/^alias mini='(.*)'$/\1/")")")"
+source $MINI_PATH/mini-moul/config.sh
 
 trap handle_sigint SIGINT
 
+function clean_up {
+  rm -R ./mini-moul
+}
+
 function handle_sigint {
   echo "${RED}Script aborted by user. Cleaning up..."
-  rm -R ../mini-moul
+  clean_up
   echo ""
   echo "${GREEN}Cleaning process done.${DEFAULT}"
   exit 130
 }
 
-function help {
-  cat <<EOF
-Usage: mini [-h] [-d proj_dir] proj_id
-
-Test runner for 42 piscine assignments that simulates moulinette.
-
-Avaliable options:
-
--h        Print this help and exit
--d        Set project directory (default to .)
-proj_id   Project ID (e.g. C02)
-EOF
-}
-
-function main {
-  if [ ! -d $1 ]; then
-    echo "$1: No such file or directory" >&2
-    exit 1
-  fi
-  pushd $1 >>/dev/null
-  cp -R ~/mini-moulinette/mini-moul mini-moul
-  cd mini-moul
-  ./test.sh "$2"
-  rm -R ../mini-moul
-  popd >>/dev/null
-  exit $?
-}
-
-OPTIONS=h,d:
-
-test_dir=$(pwd)
-while getopts $OPTIONS option; do
-  case $option in
-  h)
-    help
-    exit 0
-    ;;
-  d)
-    test_dir=$OPTARG
-    ;;
-  \?)
-    help
-    exit 1
-    ;;
-  esac
-done
-
-args=(${@:OPTIND})
-
-main $test_dir ${args[@]}
+if cp -Rf $MINI_PATH/mini-moul .; then
+  ./mini-moul/test.sh "$1"
+  clean_up
+fi

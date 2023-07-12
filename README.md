@@ -4,11 +4,9 @@
 
 Mini-moulinette is a test runner for 42 assignments, providing automated tests for whole assignment with one command. The goal is to make thorough checking before submitting the assignments, with ease.
 
-
 ## Introduction
 
 This is now day 11 of piscine. I have wasted so many hours getting evaluated, doing evaluation, waiting for evaluation, only to come back redoing it again because I kept making silly mistakes. I wish I can check my code thoroughly before submitting, but that too, will take a lot of my time. This is why I build this so I can stop wasting my time and many others, and shut moulinette up with just a single submission.
-
 
 ## How Does It Work?
 
@@ -18,74 +16,54 @@ This is now day 11 of piscine. I have wasted so many hours getting evaluated, do
 - It will then output the result.
 - The scores are based on 42's practice, where if easier/earlier questions are incorrect, the rest won't count.
 
-
-# Updating
+## Updating
 
 Mini moulinette is updated daily, to update:
 
-```bash
-cd ~/mini-moulinette
-```
+1. Go to the project git.
+2. Update to the new version.
 
-```bash
-git pull
-```
-
+    ```bash
+    git pull
+    ./install.sh
+    ```
 
 ## Get Started
 
 > ***Warning***
 > Mini moulinette is not 100% accurate, the tests may not cover every edge cases like moulinette. Use with caution.
 
-1. Go to your root `~` directory.
+1. Clone the project.
 
-```bash
-cd ~
-```
+    ```bash
+    git clone https://github.com/HanchaiN/mini-moulinette.git
+    ```
 
+2. Now install (create an alias for) it.
 
-2. Clone the git there.
+    ```sh
+    ./install.sh
+    ```
 
-```bash
-git clone https://github.com/HanchaiN/mini-moulinette.git
-```
+3. Go to your assignment directory where you want to test: e.g: C02 directory
 
+    ```bash
+    cd C02
+    ```
 
-3. Now create an alias for it.
+4. Run using command `mini` with assignment number as argument. e.g: C02.
 
-- zsh:
+    ```bash
+    mini C02
+    ```
 
-```zsh
-echo "alias mini='~/mini-moulinette/mini-moul.sh'" >> ~/.zshrc && source ~/.zshrc
-```
+    e.g: C03
 
-- bash:
+    ```bash
+    mini C03
+    ```
 
-```bash
-echo "alias mini='~/mini-moulinette/mini-moul.sh'" >> ~/.bashrc && source ~/.bashrc
-```
-
-
-4. Go to your assignment directory where you want to test: e.g: C02 directory
-
-```bash
-cd C02
-```
-
-
-5. Run using command `mini` with assignment number as argument. e.g: C02.
-
-```bash
-mini C02
-```
-
-e.g: C03
-
-```bash
-mini C03
-```
-
-6. You can now run it for every assignment directory, where tests are provided. Have fun!
+5. You can now run it for every assignment directory, where tests are provided. Have fun!
 
 ## Debugging
 
@@ -139,11 +117,9 @@ The test cases are usually put in a list of array in this structure, e.g. for ft
  }
 ```
 
-
 ## Customizing
 
 See the above, you can add more tests here. You need to manage your customization yourself when you pull for updates though.
-
 
 ## Status
 
@@ -164,7 +140,6 @@ See the above, you can add more tests here. You need to manage your customizatio
 | C12                   | 0/18                       | Not yet rated    |                 |
 | C13                   | 0/8                        | Not yet rated    |                 |
 
-
 ## Contributing
 
 We welcome contributions to mini-moulinette! Here are a few ways you can help out:
@@ -176,17 +151,14 @@ We welcome contributions to mini-moulinette! Here are a few ways you can help ou
 
 When contributing to mini-moulinette, please be sure to follow our code of conduct and our guidelines for submitting contributions. Thank you for your interest in our project, and we look forward to working with you!
 
-
 ## Authors
 
 [Khairul Haaziq](https://github.com/khairulhaaziq)
 [Hanchai Nonprasart](https://github.com/HanchaiN)
 
-
 ## Contributors
 
 [chatGPT](ai.com)
-
 
 ## License
 

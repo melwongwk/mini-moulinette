@@ -1,4 +1,4 @@
-source ~/mini-moulinette/mini-moul/config.sh
+source ../../config.sh
 
 readonly PROJECT_DIR=$1
 readonly assignment=$2

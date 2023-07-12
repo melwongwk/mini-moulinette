@@ -1,4 +1,4 @@
-source ~/mini-moulinette/mini-moul/config.sh
+source ../../config.sh
 
 readonly PROJECT_DIR=$1
 readonly assignment=$2
@@ -31,7 +31,7 @@ main() {
 			printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name/$test_name${DEFAULT}\n"
 			score_false=1
 		fi
-		if diff -U3 <(./$assignment/tail -c 10 < test1.dat 2>&1) <(tail -c 10 < test1.dat 2>&1); then
+		if diff -U3 <(./$assignment/tail -c 10 <test1.dat 2>&1) <(tail -c 10 <test1.dat 2>&1); then
 			printf "${GREEN}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name/$test_name${DEFAULT}\n"
 		else
 			printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name/$test_name${DEFAULT}\n"
@@ -55,7 +55,7 @@ main() {
 			printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name/$test_name${DEFAULT}\n"
 			score_false=1
 		fi
-		if diff -U3 <(./$assignment/tail -c 10 test1.dat - test2.dat < test3.dat 2>&1) <(tail -c 10 test1.dat - test2.dat < test3.dat 2>&1); then
+		if diff -U3 <(./$assignment/tail -c 10 test1.dat - test2.dat <test3.dat 2>&1) <(tail -c 10 test1.dat - test2.dat <test3.dat 2>&1); then
 			printf "${GREEN}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name/$test_name${DEFAULT}\n"
 		else
 			printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name/$test_name${DEFAULT}\n"

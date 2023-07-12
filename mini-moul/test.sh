@@ -1,4 +1,4 @@
-source config.sh
+source mini-moul/config.sh
 
 #utils
 ex_ind=0
@@ -10,132 +10,128 @@ questions=0
 dirname_found=0
 break_score=0
 score_false=0
-available_assignments=()
 result=""
 readonly SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 readonly PROJECT_DIR="$SCRIPT_DIR/.."
 
 main() {
-	pushd tests >/dev/null
-	start_time=$(date +%s)
-	for dir in ./*; do
-		dirname="$(basename "$dir")"
-		available_assignments+=($dirname)
-
-		if [ -d "$dir" ] && [ "$dirname" == "$1" ]; then
-			dirname_found=1
-			print_header
-			printf "${GREEN} Generating test for ${1}...\n${DEFAULT}"
-			space
-			dirname_found=1
-			ex_ind=0
-			pushd $dir >/dev/null
-			for assignment in ./*; do
-				assignment_id="$(basename "$assignment")"
-				((questions++))
-				if [ -f $assignment/test.sh ]; then
-					bash $assignment/test.sh $PROJECT_DIR $assignment
-					case $? in
-					0)
-						update_result "OK"
-						;;
-					4)
-						update_result "EF"
-						;;
-					8)
-						update_result "NE"
-						;;
-					12)
-						update_result "CE"
-						;;
-					16)
-						update_result "KO"
-						;;
-					*)
-						printf "${RED}    $assignment_name test exit with unknown code ($?).${DEFAULT}\n"
-						update_result "??"
-						;;
-					esac
+	if [ -d "mini-moul/tests/$1" ]; then
+		start_time=$(date +%s)
+		print_header
+		printf "${GREEN} Generating test for ${1}...\n${DEFAULT}"
+		space
+		ex_ind=0
+		pushd "mini-moul/tests/$1" >/dev/null
+		for assignment in ./*; do
+			assignment_id="$(basename "$assignment")"
+			((questions++))
+			if [ -f $assignment/test.sh ]; then
+				bash $assignment/test.sh $PROJECT_DIR $assignment
+				case $? in
+				0)
+					update_result "OK"
+					;;
+				4)
+					update_result "EF"
+					;;
+				8)
+					update_result "NE"
+					;;
+				12)
+					update_result "CE"
+					;;
+				16)
+					update_result "KO"
+					;;
+				*)
+					printf "${RED}    $assignment_name test exit with unknown code ($?).${DEFAULT}\n"
+					update_result "??"
+					;;
+				esac
+				space
+			else
+				assignment_name=$(ls $assignment/*.c | head -n 1)
+				assignment_name=$(basename $assignment_name)
+				assignment_name=${assignment_name%.c}
+				if [ ! -d "$PROJECT_DIR/$assignment" ]; then
+					printf "${RED}    $assignment_name is not submitted.${DEFAULT}\n"
+					printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
 					space
+
+					update_result "EF"
+				elif ! run_norminette $PROJECT_DIR/$assignment; then
+					printf "${RED}    $assignment_name failed norminette.${DEFAULT}\n"
+					printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
+					space
+
+					update_result "NE"
+				elif ! (
+					ccw -o test1 $(ls $assignment/*.c | head -n 1) $PROJECT_DIR/$assignment/*.c >>log 2>&1 ||
+						ccw -o test1 $(ls $assignment/*.c | head -n 1) >>log 2>&1
+				); then
+					cat log
+					printf "${RED}    $assignment_name cannot compile.${DEFAULT}\n"
+					printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
+					space
+
+					update_result "KO"
 				else
-					assignment_name=$(ls $assignment/*.c | head -n 1)
-					assignment_name=$(basename $assignment_name)
-					assignment_name=${assignment_name%.c}
-					if [ ! -d "$PROJECT_DIR/$assignment" ]; then
-						printf "${RED}    $assignment_name is not submitted.${DEFAULT}\n"
-						printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
-						space
+					rm log
+					rm test1
 
-						update_result "EF"
-					elif ! run_norminette $PROJECT_DIR/$assignment; then
-						printf "${RED}    $assignment_name failed norminette.${DEFAULT}\n"
-						printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
-						space
+					score_false=0
+					if [ -d "$assignment" ]; then
+						index2=0
 
-						update_result "NE"
-					elif ! (
-						ccw -o test1 $(ls $assignment/*.c | head -n 1) $PROJECT_DIR/$assignment/*.c >>log 2>&1 ||
-							ccw -o test1 $(ls $assignment/*.c | head -n 1) >>log 2>&1
-					); then
-						cat log
-						printf "${RED}    $assignment_name cannot compile.${DEFAULT}\n"
-						printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
-						space
-
-						update_result "KO"
-					else
-						rm log
-						rm test1
-
-						score_false=0
-						if [ -d "$assignment" ]; then
-							index2=0
-
-							for test in $assignment/*.c; do
-								test_name="$(basename "$test")"
-								((index2++))
-								if (
-									cc -o ${test%.c} $test $PROJECT_DIR/$assignment/*.c 2>/dev/null ||
-										cc -o ${test%.c} $test 2>/dev/null
-								); then
-									if ./${test%.c} = 0; then
-										printf "${GREEN}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name/$test_name${DEFAULT}\n"
-									else
-										printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name/$test_name${DEFAULT}\n"
-										score_false=1
-									fi
-									rm ${test%.c}
+						for test in $assignment/*.c; do
+							test_name="$(basename "$test")"
+							((index2++))
+							if (
+								cc -o ${test%.c} $test $PROJECT_DIR/$assignment/*.c 2>/dev/null ||
+									cc -o ${test%.c} $test 2>/dev/null
+							); then
+								if ./${test%.c} = 0; then
+									printf "${GREEN}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name/$test_name${DEFAULT}\n"
 								else
-									printf "    ""${GREY}[$(($index2 + 1))] $test_name ${RED}FAILED${DEFAULT}\n"
+									printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name/$test_name${DEFAULT}\n"
+									score_false=1
 								fi
-							done
-							if [ $score_false = 0 ]; then
-								printf "${BG_GREEN}${BLACK}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
-								update_result "OK"
+								rm ${test%.c}
 							else
-								printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
-								update_result "KO"
+								printf "    ""${GREY}[$(($index2 + 1))] $test_name ${RED}FAILED${DEFAULT}\n"
 							fi
-							space
+						done
+						if [ $score_false = 0 ]; then
+							printf "${BG_GREEN}${BLACK}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
+							update_result "OK"
 						else
-							printf "${RED}    $assignment_name test does not exist.${DEFAULT}\n"
+							printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
+							update_result "KO"
 						fi
+						space
+					else
+						printf "${RED}    $assignment_name test does not exist.${DEFAULT}\n"
 					fi
 				fi
-				((ex_ind++))
-			done
-			popd >/dev/null
-			break
-		fi
-	done
-	popd >/dev/null
-
-	if [ $dirname_found = 0 ]; then
+			fi
+			((ex_ind++))
+		done
+		popd >/dev/null
+	else
 		printf "${RED}Sorry. Tests for $1 isn't available yet. Consider contributing at Github.${DEFAULT}\n"
-		printf "Available assignment tests: ${PURPLE}${available_assignments[*]}${DEFAULT}\n"
+		print_avaliable_assignments
 		exit 1
 	fi
 	print_footer
+}
+
+print_avaliable_assignments() {
+	local available_assignments=()
+	for dir in ./test/*; do
+		dirname="$(basename "$dir")"
+		available_assignments+=($dirname)
+	done
+	printf "Available assignment tests: ${PURPLE}${available_assignments[*]}${DEFAULT}\n"
 }
 
 print_header() {
