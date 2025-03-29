@@ -23,7 +23,7 @@ int test1(void)
 
 	if (tab[0] != 2 || tab[1] != 3 || tab[2] != 4 || tab[3] != 5 || tab[4] != 6 || tab[5] != 7)
 	{
-		printf("    " RED "[1] Failed to reverse tab.\n" DEFAULT);
+		printf("    " RED "[1] Failed to sort tab.\n" DEFAULT);
 		return (-1);
 	}
 	else
