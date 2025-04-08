@@ -127,7 +127,7 @@ See the above, you can add more tests here. You need to manage your customizatio
 | :-------------------- | :------------------------: | :--------------: | :-------------- |
 | C00                   | 9/9                        | Not yet rated    |                 |
 | C01                   | 9/9                        | Not yet rated    |                 |
-| C02                   | 12/13                      | Not yet rated    |                 |
+| C02                   | 13/13                      | Not yet rated    |                 |
 | C03                   | 6/6                        | Not yet rated    |                 |
 | C04                   | 6/6                        | Not yet rated    |                 |
 | C05                   | 8/9                        | Not yet rated    | ex05, ex06, ex07 tests doesn't cover all edge cases |
@@ -155,6 +155,7 @@ When contributing to mini-moulinette, please be sure to follow our code of condu
 
 [Khairul Haaziq](https://github.com/khairulhaaziq)
 [Hanchai Nonprasart](https://github.com/HanchaiN)
+[Melvin Wong](https://github.com/melwongwk)
 
 ## Contributors
 
