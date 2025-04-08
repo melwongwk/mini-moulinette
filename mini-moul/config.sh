@@ -15,7 +15,7 @@ readonly CHECKMARK='\xE2\x9C\x93'
 #functions
 run_norminette() {
 	if command -v norminette &>/dev/null; then
-		norminette --only-filename $@
+		norminette -R CheckForbiddenSourceHeader -R CheckDefine --only-filename $@
 	else
 		echo "norminette not found, skipping norminette checks"
 	fi
