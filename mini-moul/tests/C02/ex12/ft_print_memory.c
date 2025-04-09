@@ -185,7 +185,7 @@ int main(void)
 		{"ft_print_memory - Small string", str3, 6, 1, expected3},
 		{"ft_print_memory - Exactly 16 bytes", str4, 16, 1, expected4},
 		{"ft_print_memory - Non-printable characters", str5, 16, 1, expected5},
-		{"ft_print_memory - Mix of printable and non-printable", str6, 17, 2, expected6},
+		{"ft_print_memory - Mix of printable and non-printable", str6, 18, 2, expected6},
 		{"ft_print_memory - Zero size (should print nothing)", str7, 0, 0, expected7}
 	};
 
