@@ -144,7 +144,7 @@ See the above, you can add more tests here. You need to manage your customizatio
 
 We welcome contributions to mini-moulinette! Here are a few ways you can help out:
 
-- Testing: We rely on community feedback to ensure our tests are comprehensive and accurate. If you notice an error in one of our tests or have an idea for a new test case, please let us know! You can contact me via email [here](melvinwk.wong@gmail.com). We would greatly appreciate any feedback or suggestions you have.
+- Testing: We rely on community feedback to ensure our tests are comprehensive and accurate. If you notice an error in one of our tests or have an idea for a new test case, please let us know! We would greatly appreciate any feedback or suggestions you have.
 - Code: If you're interested in contributing to the codebase itself, we'd be happy to review any pull requests you submit. We have a few guidelines to ensure that our code is readable and maintainable, so please take a look at our contributing guidelines before you get started.
 - Features: Do you have an idea for a new feature that you think would be useful for mini-moulinette? We'd love to hear it! Please create an issue on our GitHub repository to start a discussion.
 - Feedback: If you've used mini-moulinette and have some feedback or suggestions for improvement, please let us know! Your input is valuable to us, and we're always looking for ways to make our test runner better.
