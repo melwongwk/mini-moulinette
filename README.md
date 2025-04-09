@@ -36,7 +36,7 @@ Mini moulinette is updated daily, to update:
 1. Clone the project.
 
     ```bash
-    git clone https://github.com/HanchaiN/mini-moulinette.git
+    git clone git@github.com:melwongwk/mini-moulinette.git
     ```
 
 2. Now install (create an alias for) it.
