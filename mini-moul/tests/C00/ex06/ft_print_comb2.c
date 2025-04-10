@@ -31,7 +31,7 @@ int	test1(void)
 		printf("    " RED "[1] ft_print_comb2() Expected \"%s\", got \"%s\"\n"DEFAULT, expected_output, buffer);
 	else
 	{
-		printf("  " GREEN CHECKMARK GREY " ft_print_comb2() passed" DEFAULT);
+		printf("  " GREEN CHECKMARK GREY " ft_print_comb2() passed\n" DEFAULT);
 		ret = 0;
 	}
 	free(buffer);
