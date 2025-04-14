@@ -96,50 +96,40 @@ int compare_output(FILE *fp, char **expected, int expected_lines)
 	return (line_count == expected_lines) ? 1 : 0;
 }
 
-int run_tests(t_test *tests, int count)
-{
-	int i;
-	int error = 0;
-	void *result;
+int run_tests(t_test *tests, int count) {
+    int error = 0;
+    for (int i = 0; i < count; i++) {
+        fflush(stdout);
+        int saved_stdout = dup(STDOUT_FILENO);
+        int output_fd = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        dup2(output_fd, STDOUT_FILENO);
+        close(output_fd);
 
-	for (i = 0; i < count; i++)
-	{
-		fflush(stdout);
-		int saved_stdout = dup(STDOUT_FILENO);
-		int output_fd = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-		dup2(output_fd, STDOUT_FILENO);
-		close(output_fd);
+        void *result = ft_print_memory(tests[i].addr, tests[i].size);
 
-		result = ft_print_memory(tests[i].addr, tests[i].size);
+        fflush(stdout);
+        dup2(saved_stdout, STDOUT_FILENO);
+        close(saved_stdout);
 
-		fflush(stdout);
-		dup2(saved_stdout, STDOUT_FILENO);
-		close(saved_stdout);
+        if (result != tests[i].addr) {
+            printf("    " RED "[%d] %s - Function did not return the original address\n" DEFAULT, i + 1, tests[i].desc);
+            error--;
+        }
 
-		if (result != tests[i].addr)
-		{
-			printf("    " RED "[%d] %s - Function did not return the original address\n" DEFAULT, i + 1, tests[i].desc);
-			error -= 1;
-		}
+        FILE *fp = fopen("output.txt", "r");
+        int output_matches = compare_output(fp, tests[i].expected_output, tests[i].expected_lines);
+        fclose(fp);
 
-		FILE *fp = fopen("output.txt", "r");
-		int output_matches = compare_output(fp, tests[i].expected_output, tests[i].expected_lines);
-		fclose(fp);
+        if (!output_matches) {
+            printf("    " RED "[%d] %s - Output does not match expected\n" DEFAULT, i + 1, tests[i].desc);
+            error--;
+        } else {
+            printf("  " GREEN CHECKMARK GREY " [%d] %s passed\n" DEFAULT, i + 1, tests[i].desc);
+        }
 
-		if (!output_matches)
-		{
-			printf("    " RED "[%d] %s - Output does not match expected\n" DEFAULT, i + 1, tests[i].desc);
-			error -= 1;
-		}
-		else
-		{
-			printf("  " GREEN CHECKMARK GREY " [%d] %s passed\n" DEFAULT, i + 1, tests[i].desc);
-		}
-
-		remove("output.txt");
-	}
-
-	return (error);
+        remove("output.txt");
+    }
+    return error;
 }
 
 int main(void)

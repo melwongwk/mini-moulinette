@@ -65,6 +65,60 @@ int main(void)
             .base = "0123456789abcdef",
             .expected_output = 2147483647,
         },
+		{
+			.desc = "Convert vfp in base 'poneyvif' to decimal",
+            .str = "vfp",
+            .base = "poneyvif",
+            .expected_output = 376,
+		},
+		{
+			.desc = "Invalid base(empty)",
+            .str = "42",
+            .base = "",
+            .expected_output = 0,
+		},
+		{
+			.desc = "Invalid base(1 char)",
+            .str = "42",
+            .base = "0",
+            .expected_output = 0,
+		},
+		{
+			.desc = "Invalid base(duplicate char)",
+            .str = "42",
+            .base = "01234567890",
+            .expected_output = 0,
+		},
+		{
+			.desc = "Invalid base(+ in base)",
+            .str = "42",
+            .base = "01234+56789",
+            .expected_output = 0,
+		},
+		{
+			.desc = "Invalid base(space in base)",
+            .str = "42",
+            .base = "01234 56789",
+            .expected_output = 0,
+		},
+		{
+			.desc = "Stops at invalid char",
+            .str = "42a",
+            .base = "0123456789",
+            .expected_output = 42,
+		},
+		{
+			.desc = "Just signs",
+            .str = "----+++++",
+            .base = "0123456789",
+            .expected_output = 0,
+		},
+		{
+			.desc = "Empty string",
+            .str = "",
+            .base = "0123456789",
+            .expected_output = 0,
+		},
         // Add more test cases here
     };
     int count = sizeof(tests) / sizeof(tests[0]);
