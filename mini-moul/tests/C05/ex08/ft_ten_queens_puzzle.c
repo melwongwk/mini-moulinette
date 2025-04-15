@@ -25,31 +25,34 @@ int	test1(void)
 	int		expected;
 	FILE	*fp;
 
-	// Flush the standard output buffer
 	fflush(stdout);
-	// Clear the buffer used to capture the output of the function being tested
 	memset(buffer, 0, sizeof(buffer));
-	// Redirect the output to a file
+
 	saved_stdout = dup(STDOUT_FILENO);
 	output_fd = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	dup2(output_fd, STDOUT_FILENO);
 	close(output_fd);
+
 	result = ft_ten_queens_puzzle();
 	expected = 724;
-	// Restore the original output
+
 	fflush(stdout);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdout);
-	// Open the output file and check its contents
+
+	// Open the output and optionally read or check it
 	fp = fopen("output.txt", "r");
 	fgets(buffer, sizeof(buffer), fp);
 	fclose(fp);
+
+	// Check result
 	if (result != expected)
 	{
 		printf("    " RED "[1] ft_ten_queens_puzzle() Expected %d, got %d\n",
 				expected,
 				result);
+		remove("output.txt"); // 🧹 cleanup
 		return (-1);
 	}
 	else
@@ -58,8 +61,8 @@ int	test1(void)
 				" [1] ft_ten_queens_puzzle() Expected %d, got %d\n" DEFAULT,
 				expected,
 				result);
+		remove("output.txt"); // 🧹 cleanup
 		return (0);
 	}
-	// Delete the output file
-	remove("output.txt");
 }
+
