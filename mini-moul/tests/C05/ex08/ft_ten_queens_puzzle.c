@@ -16,18 +16,33 @@ int	main(void)
 	return (0);
 }
 
+int	is_valid_solution_line(char *line)
+{
+	int	seen[10] = {0};
+	int	i;
+
+	for (i = 0; i < 10; i++)
+	{
+		if (line[i] < '0' || line[i] > '9')
+			return (0); // Invalid character
+		if (seen[line[i] - '0'])
+			return (0); // Duplicate digit
+		seen[line[i] - '0'] = 1;
+	}
+	return (line[10] == '\n'); // Must end with newline
+}
+
 int	test1(void)
 {
-	char	buffer[1024];
+	char	line[16]; // each line is 10 chars + '\n' + '\0'
 	int		saved_stdout;
 	int		output_fd;
 	int		result;
-	int		expected;
+	int		expected = 724;
 	FILE	*fp;
+	int		line_count = 0;
 
 	fflush(stdout);
-	memset(buffer, 0, sizeof(buffer));
-
 	saved_stdout = dup(STDOUT_FILENO);
 	output_fd = open("output.txt", O_WRONLY | O_CREAT | O_TRUNC,
 			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
@@ -35,34 +50,48 @@ int	test1(void)
 	close(output_fd);
 
 	result = ft_ten_queens_puzzle();
-	expected = 724;
 
 	fflush(stdout);
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdout);
 
-	// Open the output and optionally read or check it
-	fp = fopen("output.txt", "r");
-	fgets(buffer, sizeof(buffer), fp);
-	fclose(fp);
-
-	// Check result
 	if (result != expected)
 	{
-		printf("    " RED "[1] ft_ten_queens_puzzle() Expected %d, got %d\n",
-				expected,
-				result);
+		printf("    " RED "[1] Return value: Expected %d, got %d\n" DEFAULT,
+				expected, result);
 		remove("output.txt");
 		return (-1);
 	}
-	else
-	{
-		printf("  " GREEN CHECKMARK GREY
-				" [1] ft_ten_queens_puzzle() Expected %d, got %d\n" DEFAULT,
-				expected,
-				result);
-		remove("output.txt");
-		return (0);
-	}
-}
 
+	fp = fopen("output.txt", "r");
+	if (!fp)
+	{
+		printf("    " RED "[1] Failed to open output file\n" DEFAULT);
+		return (-1);
+	}
+
+	while (fgets(line, sizeof(line), fp))
+	{
+		if (!is_valid_solution_line(line))
+		{
+			printf("    " RED "[1] Invalid line format: %s" DEFAULT, line);
+			fclose(fp);
+			remove("output.txt");
+			return (-1);
+		}
+		line_count++;
+	}
+	fclose(fp);
+	remove("output.txt");
+
+	if (line_count != expected)
+	{
+		printf("    " RED "[1] Expected %d lines, got %d\n" DEFAULT,
+				expected, line_count);
+		return (-1);
+	}
+
+	printf("  " GREEN CHECKMARK GREY
+			" [1] ft_ten_queens_puzzle() Output format and count OK\n" DEFAULT);
+	return (0);
+}
