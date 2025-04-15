@@ -52,7 +52,7 @@ int	test1(void)
 		printf("    " RED "[1] ft_ten_queens_puzzle() Expected %d, got %d\n",
 				expected,
 				result);
-		remove("output.txt"); // 🧹 cleanup
+		remove("output.txt");
 		return (-1);
 	}
 	else
@@ -61,7 +61,7 @@ int	test1(void)
 				" [1] ft_ten_queens_puzzle() Expected %d, got %d\n" DEFAULT,
 				expected,
 				result);
-		remove("output.txt"); // 🧹 cleanup
+		remove("output.txt");
 		return (0);
 	}
 }
