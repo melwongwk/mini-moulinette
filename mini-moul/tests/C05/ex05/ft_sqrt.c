@@ -1,7 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <fcntl.h>
 #include "../../../../ex05/ft_sqrt.c"
 #include "../../../utils/constants.h"
 
@@ -57,6 +54,26 @@ int main(void)
             .n = -2147483648,
             .expected = 0,
         },
+		{
+			.desc = "Square root of 15 (just under 16)",
+			.n = 15,
+			.expected = 0,
+		},
+		{
+			.desc = "Square root of 17 (just over 16)",
+			.n = 17,
+			.expected = 0,
+		},
+		{
+			.desc = "Square root of 144",
+			.n = 144,
+			.expected = 12,
+		},
+		{
+			.desc = "Square root of 50",
+			.n = 50,
+			.expected = 0,
+		},
         // Add more test cases here
     };
     int count = sizeof(tests) / sizeof(tests[0]);
