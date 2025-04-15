@@ -115,9 +115,6 @@ int main(void)
 			.expected = 2147483647,
 		},
 	};
-
-        // Add more test cases here
-    };
     int count = sizeof(tests) / sizeof(tests[0]);
 
     return run_tests(tests, count);
