@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
 #include "../../../../ex00/ft_strdup.c"
 #include "../../../utils/constants.h"
 
@@ -36,6 +37,16 @@ int main(void)
             .src = "test\0test",
             .expected = "test"
         },
+		{
+			.desc = "ft_strdup with special characters",
+			.src = "\tHello\nWorld\\!",
+			.expected = "\tHello\nWorld\\!"
+		},
+		{
+			.desc = "ft_strdup with whitespace-only string",
+			.src = "    \t  \n",
+			.expected = "    \t  \n"
+		},
     };
     int count = sizeof(tests) / sizeof(tests[0]);
 
