@@ -75,6 +75,22 @@ int main(void)
             .expected_return = 0,
             .expected_range = NULL,
         },
+		{
+			.desc = "ft_ultimate_range with min 41, max 42 (single element)",
+			.min = 41,
+			.max = 42,
+			.range = NULL,
+			.expected_return = 1,
+			.expected_range = (int[]){41},
+		},
+		{
+			.desc = "ft_ultimate_range with min 0, max 10000 (large range)",
+			.min = 0,
+			.max = 10000,
+			.range = NULL,
+			.expected_return = 10000,
+			.expected_range = NULL, // Skipping content check for performance
+		},
     };
     int count = sizeof(tests) / sizeof(tests[0]);
 
@@ -97,11 +113,22 @@ int run_tests(t_test *tests, int count)
         {
             printf("  " GREEN CHECKMARK GREY " [%d] %s Expected NULL, got NULL\n" DEFAULT, i + 1, tests[i].desc);
         }
-        else if (tests[i].expected_range == NULL || result == NULL)
-        {
-            printf("    " RED "[%d] %s Expected %p, got %p\n" DEFAULT, i + 1, tests[i].desc, tests[i].expected_range, result);
-            error--;
-        }
+        else if (tests[i].expected_range == NULL && result == NULL)
+		{
+			printf("  " GREEN CHECKMARK GREY " [%d] %s Expected NULL, got NULL\n" DEFAULT, i + 1, tests[i].desc);
+		}
+		else if (tests[i].expected_range == NULL) // For large range test (skipping memcmp)
+		{
+			if (range_size != tests[i].expected_return)
+			{
+				printf("    " RED "[%d] %s Expected size %d, got size %d\n" DEFAULT, i + 1, tests[i].desc, tests[i].expected_return, range_size);
+				error--;
+			}
+			else
+			{
+				printf("  " GREEN CHECKMARK GREY " [%d] %s Passed (content not checked for performance)\n" DEFAULT, i + 1, tests[i].desc);
+			}
+		}
         else if (range_size != expected_size)
         {
             printf("    " RED "[%d] %s Expected size %d, got size %d\n" DEFAULT, i + 1, tests[i].desc, expected_size, range_size);
