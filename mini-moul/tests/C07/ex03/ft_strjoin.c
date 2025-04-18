@@ -52,7 +52,21 @@ int main(void)
             .strs = (char*[]){ "Hello", "world" },
             .sep = "",
             .expected = "Helloworld"
-        }
+        },
+		{
+			.desc = "ft_strjoin with all empty strings",
+			.size = 3,
+			.strs = (char*[]){ "", "", "" },
+			.sep = ",",
+			.expected = ",,"
+		},
+		{
+			.desc = "ft_strjoin with special characters in separator",
+			.size = 3,
+			.strs = (char*[]){ "a", "b", "c" },
+			.sep = "<->",
+			.expected = "a<->b<->c"
+		},
     };
     int count = sizeof(tests) / sizeof(tests[0]);
 
