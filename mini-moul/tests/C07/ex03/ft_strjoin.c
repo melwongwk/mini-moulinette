@@ -3,6 +3,9 @@
 #include <string.h>
 #include "../../../../ex03/ft_strjoin.c"
 #include "../../../utils/constants.h"
+#define LARGE_SIZE 1000
+#define LONG_STRING "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
 
 typedef struct s_test
 {
@@ -17,6 +20,16 @@ int run_tests(t_test *tests, int count);
 
 int main(void)
 {
+    // Setup for large test
+    char **large_strs = malloc(sizeof(char *) * LARGE_SIZE);
+    char *large_expected = malloc(LARGE_SIZE + 1);
+    for (int i = 0; i < LARGE_SIZE; i++)
+    {
+        large_strs[i] = "a";
+        large_expected[i] = 'a';
+    }
+    large_expected[LARGE_SIZE] = '\0';
+
     t_test tests[] = {
         {
             .desc = "ft_strjoin with size 0",
@@ -53,24 +66,48 @@ int main(void)
             .sep = "",
             .expected = "Helloworld"
         },
-		{
-			.desc = "ft_strjoin with all empty strings",
-			.size = 3,
-			.strs = (char*[]){ "", "", "" },
-			.sep = ",",
-			.expected = ",,"
-		},
-		{
-			.desc = "ft_strjoin with special characters in separator",
-			.size = 3,
-			.strs = (char*[]){ "a", "b", "c" },
-			.sep = "<->",
-			.expected = "a<->b<->c"
-		},
+        {
+            .desc = "ft_strjoin with all empty strings",
+            .size = 3,
+            .strs = (char*[]){ "", "", "" },
+            .sep = ",",
+            .expected = ",,"
+        },
+        {
+            .desc = "ft_strjoin with special characters in separator",
+            .size = 3,
+            .strs = (char*[]){ "a", "b", "c" },
+            .sep = "<->",
+            .expected = "a<->b<->c"
+        },
+        {
+            .desc = "ft_strjoin with 1000 repetitions of 'a'",
+            .size = LARGE_SIZE,
+            .strs = large_strs,
+            .sep = "",
+            .expected = large_expected
+        },
+        {
+            .desc = "ft_strjoin with very long strings and separator",
+            .size = 3,
+            .strs = (char*[]){
+                LONG_STRING,
+                "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+                "cccccccccccccccccccccccccccccccccccccccccccccccccc"
+            },
+            .sep = "--SEPARATOR--",
+            .expected = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa--SEPARATOR--bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb--SEPARATOR--cccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
     };
-    int count = sizeof(tests) / sizeof(tests[0]);
 
-    return run_tests(tests, count);
+    int count = sizeof(tests) / sizeof(tests[0]);
+    int result = run_tests(tests, count);
+
+    // Cleanup
+    free(large_expected);
+    free(large_strs);
+
+    return result;
 }
 
 int run_tests(t_test *tests, int count)
