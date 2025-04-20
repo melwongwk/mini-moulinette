@@ -127,7 +127,7 @@ See the above, you can add more tests here. You need to manage your customizatio
 | :-------------------- | :------------------------: | :--------------: | :-------------- |
 | C00                   | 9/9                        | Not yet rated    |                 |
 | C01                   | 9/9                        | Not yet rated    |                 |
-| C02                   | 13/13                      | Not yet rated    |                 |
+| C02                   | 13/13                      | Not yet rated    | ex12 does not compare addresses |
 | C03                   | 6/6                        | Not yet rated    |                 |
 | C04                   | 6/6                        | Not yet rated    |                 |
 | C05                   | 9/9                        | Not yet rated    |                 |
