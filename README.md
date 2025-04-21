@@ -127,13 +127,13 @@ See the above, you can add more tests here. You need to manage your customizatio
 | :-------------------- | :------------------------: | :--------------: | :-------------- |
 | C00                   | 9/9                        | Not yet rated    |                 |
 | C01                   | 9/9                        | Not yet rated    |                 |
-| C02                   | 13/13                      | Not yet rated    | ex12 does not compare addresses |
+| C02                   | 13/13                      | Not yet rated    | ex12 does not compare addresses, just hex values, string output, and format  |
 | C03                   | 6/6                        | Not yet rated    |                 |
 | C04                   | 6/6                        | Not yet rated    |                 |
 | C05                   | 9/9                        | Not yet rated    |                 |
 | C06                   | 4/4                        | Not yet rated    |                 |
 | C07                   | 6/6                        | Not yet rated    |                 |
-| C08                   | 6/6                        | Not yet rated    | every tests mostly just cover compilation |
+| C08                   | 6/6                        | Not yet rated    | Tests mostly just cover compilation |
 | C09                   | 0/3                        | Not yet rated    | WIP             |
 | C10                   | 0/4                        | Not yet rated    | WIP             |
 | C11                   | 0/8                        | Not yet rated    | WIP             |
