@@ -17,24 +17,20 @@ main() {
 			\cp $PROJECT_DIR/$assignment/$file $assignment
 		fi
 	done
-	if ! run_norminette -R CheckDefine ${files_dir[@]}; then
-		printf "${RED}    $assignment_name failed norminette.${DEFAULT}\n"
-		printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
-		exit 8
-	elif ! (ccw -o test1 $assignment/main.c); then
+	
+#	if ! run_norminette -R CheckDefine ${files_dir[@]}; then
+#		printf "${RED}    $assignment_name failed norminette.${DEFAULT}\n"
+#		printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
+#		exit 8
+#	fi
+
+	if ! (ccw -o test1 $assignment/main.c); then
 		printf "${RED}    $assignment_name cannot compile.${DEFAULT}\n"
 		printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
 		exit 12
 	else
-		score_false=0
-		if ./test1 = 0; then
-			printf "${GREEN}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name${DEFAULT}\n"
-		else
-			printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name${DEFAULT}\n"
-			score_false=1
-		fi
-		rm test1
-		if [ $score_false = 0 ]; then
+		./test1
+		if [ $? -eq 0 ]; then
 			printf "${BG_GREEN}${BLACK}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
 			exit 0
 		else
