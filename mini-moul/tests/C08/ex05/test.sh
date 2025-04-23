@@ -4,7 +4,7 @@ readonly PROJECT_DIR=$1
 readonly assignment=$2
 readonly assignment_id="$(basename "$assignment")"
 readonly assignment_name="ft_show_tab.c"
-readonly files=("../ex04/ft_strs_to_tab.c" "ft_show_tab.c")
+readonly files=("ft_show_tab.c" "../ex04/ft_strs_to_tab.c")
 readonly files_dir=$(for file in "${files[@]}"; do echo -n "$assignment/$file "; done)
 
 main() {
