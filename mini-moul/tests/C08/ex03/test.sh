@@ -17,18 +17,31 @@ main() {
 			\cp $PROJECT_DIR/$assignment/$file $assignment
 		fi
 	done
+	
 	if ! run_norminette ${files_dir[@]}; then
 		printf "${RED}    $assignment_name failed norminette.${DEFAULT}\n"
 		printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
 		exit 8
-	elif ! (ccw -o test1 $assignment/main.c); then
+	fi
+	
+	if ! (ccw -o test1 $assignment/main.c); then
 		printf "${RED}    $assignment_name cannot compile.${DEFAULT}\n"
 		printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
 		exit 12
 	else
-		rm test1
-		printf "${BG_GREEN}${BLACK}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
-		exit 0
+		output=$(./test1)
+		expected="x = 42, y = 21"
+		if [ "$output" = "$expected" ]; then
+			printf "  ${GREEN}${CHECKMARK}${GREY} Output is correct: \"$output\"\n${DEFAULT}"
+			rm test1
+			printf "${BG_GREEN}${BLACK}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
+			exit 0
+		else
+			printf "    ${RED}FAIL: Expected \"$expected\", got \"$output\"\n${DEFAULT}"
+			rm test1
+			printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
+			exit 16
+		fi
 	fi
 }
 
