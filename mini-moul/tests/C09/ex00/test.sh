@@ -21,7 +21,7 @@ main() {
 		printf "${RED}    $assignment_name failed norminette.${DEFAULT}\n"
 		printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
 		exit 8
-	elif ! (cd $assignment && sh libft_creator.sh); then
+	elif ! (cd "$assignment" && sh libft_creator.sh); then
 		printf "${RED}    $assignment_name cannot be executed.${DEFAULT}\n"
 		printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
 		exit 12
@@ -30,7 +30,7 @@ main() {
 			printf "${BG_RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
 			exit 16
 		fi
-		rm $assignment/libft.a
+		rm -- "$assignment/libft.a"
 		printf "${BG_GREEN}${BLACK}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
 		cd ..
 		exit 0
