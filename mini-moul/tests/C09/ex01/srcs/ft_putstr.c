@@ -3,33 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnonpras <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: melwong <melwong@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/10 16:00:05 by hnonpras          #+#    #+#             */
-/*   Updated: 2023/06/10 16:29:45 by hnonpras         ###   ########.fr       */
+/*   Created: 2025/03/25 15:13:56 by melwong           #+#    #+#             */
+/*   Updated: 2025/04/23 22:21:22 by melwong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include<unistd.h>
+#include <unistd.h>
+
+void	ft_putchar(char c);
 
 void	ft_putstr(char *str)
 {
-	while (*str != '\0')
-	{
-		write(STDOUT_FILENO, str, 1);
-		str++;
-	}
-	return ;
-}
+	int	i;
 
-/*
-int main(int argc, char **argv)
-{
-	for(int i = 0; i < argc; i++)
+	i = 0;
+	while (str[i])
 	{
-		ft_putstr(argv[i]);
-		write(STDOUT_FILENO, "\n", 1);
+		ft_putchar(str[i]);
+		i++;
 	}
-	return 0;
 }
-*/

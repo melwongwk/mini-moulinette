@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_swap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnonpras <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: melwong <melwong@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/10 15:45:13 by hnonpras          #+#    #+#             */
-/*   Updated: 2023/06/10 15:45:17 by hnonpras         ###   ########.fr       */
+/*   Created: 2025/03/25 15:12:28 by melwong           #+#    #+#             */
+/*   Updated: 2025/03/25 15:13:42 by melwong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include<stdio.h>
+#include <unistd.h>
 
 void	ft_swap(int *a, int *b)
 {
@@ -19,18 +19,4 @@ void	ft_swap(int *a, int *b)
 	temp = *a;
 	*a = *b;
 	*b = temp;
-	return ;
 }
-
-/*
-int	main(void)
-{
-	int a = 1;
-	int b = 2;
-
-	printf("%d, %d\n", a, b);
-	ft_swap(&a, &b);
-	printf("%d, %d\n", a, b);
-	return (0);
-}
-*/

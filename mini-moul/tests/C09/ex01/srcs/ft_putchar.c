@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnonpras <hnonpras@student.42bangkok.com>  +#+  +:+       +#+        */
+/*   By: melwong <melwong@student.42kl.edu.my>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/08 09:15:33 by hnonpras          #+#    #+#             */
-/*   Updated: 2023/06/08 09:54:43 by hnonpras         ###   ########.fr       */
+/*   Created: 2025/03/25 15:09:31 by melwong           #+#    #+#             */
+/*   Updated: 2025/03/25 15:12:11 by melwong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include <unistd.h>
 
 void	ft_putchar(char c)
 {
-	write(STDOUT_FILENO, &c, 1);
-	return ;
+	write(1, &c, 1);
 }
