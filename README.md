@@ -135,7 +135,7 @@ See the above, you can add more tests here. You need to manage your customizatio
 | C07                   | 6/6                        | Not yet rated    |                 |
 | C08                   | 6/6                        | Not yet rated    | Tests mostly just cover compilation |
 | C09                   | 3/3                        | Not yet rated    |                 |
-| C10                   | 0/4                        | Not yet rated    | WIP             |
+| C10                   | 2/4                        | Not yet rated    | WIP             |
 | C11                   | 0/8                        | Not yet rated    | WIP             |
 | C12                   | 0/18                       | Not yet rated    |                 |
 | C13                   | 0/8                        | Not yet rated    |                 |
