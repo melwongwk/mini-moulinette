@@ -165,6 +165,43 @@ main() {
 		printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name Test 13: Permission denied.${DEFAULT}\n"
 		score_false=1
 	fi
+	
+	# Test 14: One valid and one nonexistent file
+	if diff -U3 <(./"$assignment"/tail -c 10 test8.txt nofile999.dat 2>&1) <(tail -c 10 test8.txt nofile999.dat 2>&1); then
+		printf "${GREEN}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name Test 14: Valid + nonexistent file.${DEFAULT}\n"
+	else
+		printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name Test 14: Valid + nonexistent file.${DEFAULT}\n"
+		score_false=1
+	fi
+
+	# Test 15: Mix of valid file, empty file, and stdin
+	echo "stdin content here" | ./"$assignment"/tail -c 8 test9.txt emptyfile.dat - 2>&1 > ft_tail_output.txt
+	echo "stdin content here" | tail -c 8 test9.txt emptyfile.dat - 2>&1 > tail_output.txt
+	if diff -U3 ft_tail_output.txt tail_output.txt > /dev/null; then
+		printf "${GREEN}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name Test 15: Valid + empty + stdin.${DEFAULT}\n"
+	else
+		printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name Test 15: Valid + empty + stdin.${DEFAULT}\n"
+		score_false=1
+	fi
+
+	# Test 16: Valid file, nonexistent file, valid file
+	if diff -U3 <(./"$assignment"/tail -c 5 test8.txt nofile123.txt test9.txt 2>&1) <(tail -c 5 test8.txt nofile123.txt test9.txt 2>&1); then
+		printf "${GREEN}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name Test 16: Valid + missing + valid.${DEFAULT}\n"
+	else
+		printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name Test 16: Valid + missing + valid.${DEFAULT}\n"
+		score_false=1
+	fi
+
+	# Test 17: Stdin, valid file, stdin again
+	{ echo "first stdin"; echo "second stdin"; } | ./"$assignment"/tail -c 6 - test8.txt - 2>&1 > ft_tail_output.txt
+	{ echo "first stdin"; echo "second stdin"; } | tail -c 6 - test8.txt - 2>&1 > tail_output.txt
+	if diff -U3 ft_tail_output.txt tail_output.txt > /dev/null; then
+		printf "${GREEN}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name Test 17: stdin + valid + stdin.${DEFAULT}\n"
+	else
+		printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name Test 17: stdin + valid + stdin.${DEFAULT}\n"
+		score_false=1
+	fi
+
 
 	# Cleanup
 	rm -f test1.dat test2.dat test3.dat test7.dat test8.txt test9.txt test10.txt emptyfile.dat
