@@ -52,6 +52,10 @@ main() {
 	yes "A" | head -c 1024 > longfile.txt
 	echo -n "aaaabbbb" > a1.txt
 	echo -n "ccccdddd" > a2.txt
+	echo -n "1234567890abcdef" > exact16.txt
+	echo -n "1234567890abcde" > size15.txt
+	head -c 32 /dev/zero > allzeros.bin
+	printf "\x01\x02\x03\x04\x05\x06\x07\x08\x0B\x0C\x0E\x0F" > nonprintables.bin
 
 	# Run tests
 	run_test "Test 1: Basic file" \
@@ -97,9 +101,26 @@ main() {
 	run_test "Test 11: Mixed existing and missing files" \
 		"./$assignment/hexdump -C a1.txt missing1.txt a2.txt missing2.txt 2>&1" \
 		"hexdump -C a1.txt missing1.txt a2.txt missing2.txt 2>&1"
+	
+	run_test "Test 12: File exactly 16 bytes" \
+		"./$assignment/hexdump -C exact16.txt 2>&1" \
+		"hexdump -C exact16.txt 2>&1"
+
+	run_test "Test 13: File size not multiple of 16" \
+		"./$assignment/hexdump -C size15.txt 2>&1" \
+		"hexdump -C size15.txt 2>&1"
+
+	run_test "Test 14: All non-printable bytes" \
+		"./$assignment/hexdump -C nonprintables.bin 2>&1" \
+		"hexdump -C nonprintables.bin 2>&1"
+
+	run_test "Test 15: Stdin from cat multiple files" \
+		"cat a1.txt a2.txt | ./$assignment/hexdump -C" \
+		"cat a1.txt a2.txt | hexdump -C"
 
 	# Cleanup
-	rm -f file1.txt file2.txt emptyfile.txt binary_test.bin longfile.txt a1.txt a2.txt
+	rm -f file1.txt file2.txt emptyfile.txt binary_test.bin longfile.txt \
+		a1.txt a2.txt exact16.txt size15.txt allzeros.bin nonprintables.bin
 
 	if [ $score_false = 0 ]; then
 		printf "${BG_GREEN}${BLACK}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name\n"
