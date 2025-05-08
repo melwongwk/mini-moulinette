@@ -11,8 +11,17 @@ run_test() {
 	local description=$1
 	local actual_cmd=$2
 	local expected_output=$3
+	local stream=${4:-stdout}  # default to stdout
 
-	if [[ "$(eval "$actual_cmd")" == "$expected_output" ]]; then
+	local actual_output
+
+	if [[ "$stream" == "stderr" ]]; then
+		actual_output=$(eval "$actual_cmd" 2>&1 1>/dev/null)
+	else
+		actual_output=$(eval "$actual_cmd" 2>/dev/null)
+	fi
+
+	if [[ "$actual_output" == "$expected_output" ]]; then
 		printf "${GREEN}${BOLD} PASS ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name $description.${DEFAULT}\n"
 	else
 		printf "${RED}${BOLD} FAIL ${DEFAULT}${PURPLE} $assignment_id/${DEFAULT}$assignment_name $description.${DEFAULT}\n"
@@ -62,9 +71,9 @@ main() {
 	run_test "Invalid left operand" "./$assignment/do-op toto3 + 4" "4"
 	run_test "Invalid operands and operator" "./$assignment/do-op foo plus bar" "0"
 
-	# Division/modulo by zero
-	run_test "Division by zero" "./$assignment/do-op 25 / 0" "Stop : division by zero"
-	run_test "Modulo by zero" "./$assignment/do-op 25 % 0" "Stop : modulo by zero"
+	# Division/modulo by zero (check stderr)
+	run_test "Division by zero" "./$assignment/do-op 25 / 0" "Stop : division by zero" "stderr"
+	run_test "Modulo by zero" "./$assignment/do-op 25 % 0" "Stop : modulo by zero" "stderr"
 
 	# Mixed/complex value parsing
 	run_test "Complex operand parsing" "./$assignment/do-op 42amis - --+-20toto12" "62"
@@ -73,7 +82,6 @@ main() {
 	run_test "INT_MAX + 1" "./$assignment/do-op 2147483647 + 1" "2147483648"
 	run_test "INT_MIN - 1" "./$assignment/do-op -2147483648 - 1" "-2147483649"
 	run_test "Overflow multiply" "./$assignment/do-op 46341 '*' 46341" "2147488281"
-
 
 	# Bonus: chained/extra symbols
 	run_test "Chained operators" "./$assignment/do-op 1 + + 2" ""
