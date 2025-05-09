@@ -137,7 +137,7 @@ See the above, you can add more tests here. You need to manage your customizatio
 | C09                   | 3/3                        | Not yet rated    |                 |
 | C10                   | 4/4                        | Not yet rated    |                 |
 | C11                   | 8/8                        | Not yet rated    |                 |
-| C12                   | 0/18                       | Not yet rated    |                 |
+| C12                   | 1/18                       | Not yet rated    |                 |
 | C13                   | 0/8                        | Not yet rated    |                 |
 
 ## Contributing
