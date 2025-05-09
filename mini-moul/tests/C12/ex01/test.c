@@ -158,3 +158,15 @@ int test5(void) {
 	printf("  " GREEN CHECKMARK GREY " [5] Mixed data types push front passed\n" DEFAULT);
 	return 0;
 }
+
+t_list	*ft_create_elem(void *data)
+{
+	t_list	*elem;
+
+	elem = malloc(sizeof(t_list));
+	if (!elem)
+		return (NULL);
+	elem->data = data;
+	elem->next = NULL;
+	return (elem);
+}
