@@ -121,10 +121,22 @@ int test3(void) {
 	return 0;
 }
 
-// Test 4: Apply to NULL list
+// Test 4: Apply to NULL list should not call the function
 int test4(void) {
 	t_list *list = NULL;
-	ft_list_foreach(list, to_uppercase);
+	int called = 0;
+
+	void dummy(void *data) {
+		(void)data;
+		called = 1;
+	}
+
+	ft_list_foreach(list, dummy);
+
+	if (called) {
+		printf("    " RED "[4] NULL list triggered function call\n" DEFAULT);
+		return -1;
+	}
 	printf("  " GREEN CHECKMARK GREY " [4] NULL list handled gracefully\n" DEFAULT);
 	return 0;
 }
