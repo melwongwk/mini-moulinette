@@ -8,7 +8,6 @@
 t_list *ft_create_elem(void *data);
 void ft_list_reverse(t_list **begin_list);
 void free_list(t_list *list);
-void print_list(t_list *list);
 int test1(void);
 int test2(void);
 int test3(void);
