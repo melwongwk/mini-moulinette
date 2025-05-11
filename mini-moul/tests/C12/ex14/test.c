@@ -270,26 +270,31 @@ int test9(void) {
 }
 
 int test10(void) {
-	t_list *list = ft_create_elem(strdup("banana"));
-	list->next = ft_create_elem(NULL);
-	list->next->next = ft_create_elem(strdup("apple"));
+    t_list *list = ft_create_elem(strdup("banana"));
+    list->next = ft_create_elem(NULL);
+    list->next->next = ft_create_elem(strdup("apple"));
 
-	int crashed = 0;
-	// Defensive comparison: cmp_str must guard against NULL.
-	int safe_cmp(void *a, void *b) {
-		if (!a || !b) return 0;
-		return strcmp((char *)a, (char *)b);
-	}
+    // Defensive comparison: cmp_str must guard against NULL
+    int safe_cmp(void *a, void *b) {
+        if (!a && !b) return 0;
+        if (!a) return -1;
+        if (!b) return 1;
+        return strcmp((char *)a, (char *)b);
+    }
 
-	// We expect no crash but result correctness is not guaranteed with NULLs
-	// so just check it doesn’t crash
-	ft_list_sort(&list, safe_cmp);
+    // Sort the list; expecting no crash, but correctness is not guaranteed with NULL data
+    ft_list_sort(&list, safe_cmp);
 
-	free_list(list);
-	if (crashed) {
-		printf("    " RED "[10] NULL data pointer failed (crash)\n" DEFAULT);
-		return -1;
-	}
-	printf("  " GREEN CHECKMARK GREY " [10] NULL data pointer passed (no crash)\n" DEFAULT);
-	return 0;
+    // Validate if sorting works with NULLs present; we expect the list to be ordered
+    int pass = list && list->data == NULL &&
+               list->next && strcmp(list->next->data, "apple") == 0 &&
+               list->next->next && strcmp(list->next->next->data, "banana") == 0;
+
+    free_list(list);
+    if (!pass) {
+        printf("    " RED "[10] NULL-safe sort failed\n" DEFAULT);
+        return -1;
+    }
+    printf("  " GREEN CHECKMARK GREY " [10] NULL-safe sort passed\n" DEFAULT);
+    return 0;
 }
