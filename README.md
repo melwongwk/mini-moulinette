@@ -133,11 +133,11 @@ See the above, you can add more tests here. You need to manage your customizatio
 | C05                   | 9/9                        | Not yet rated    |                 |
 | C06                   | 4/4                        | Not yet rated    |                 |
 | C07                   | 6/6                        | Not yet rated    |                 |
-| C08                   | 6/6                        | Not yet rated    |                 |
+| C08                   | 6/6                        | Not yet rated    | ex02 skips norminette check for now due to norminette not ignoring ternary operators in header files |
 | C09                   | 3/3                        | Not yet rated    |                 |
 | C10                   | 4/4                        | Not yet rated    |                 |
 | C11                   | 8/8                        | Not yet rated    |                 |
-| C12                   | 5/18                       | Not yet rated    | WIP             |
+| C12                   | 13/18                      | Not yet rated    | WIP             |
 | C13                   | 0/8                        | Not yet rated    | WIP             |
 
 ## Contributing
